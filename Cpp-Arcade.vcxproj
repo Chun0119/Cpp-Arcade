@@ -302,9 +302,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h" />
+    <ClInclude Include="src\core\scene.h" />
+    <ClInclude Include="src\core\scene_factory.h" />
+    <ClInclude Include="src\core\scene_manager.h" />
+    <ClInclude Include="src\scenes\menu.h" />
+    <ClInclude Include="src\scenes\snake\snake.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\scene_factory.cpp" />
+    <ClCompile Include="src\core\scene_manager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\scenes\menu.cpp" />
+    <ClCompile Include="src\scenes\snake\snake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />

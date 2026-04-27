@@ -13,15 +13,51 @@
     <Filter Include="Windows Resource Files">
       <UniqueIdentifier>{6B659E97-575F-C7E9-40CC-5DFA2C652D56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{961c9990-8182-4f1c-a4b8-9f497800cacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{d0af0905-0a7a-4c4d-9bf0-63599301f493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Snake">
+      <UniqueIdentifier>{2f8d4dfb-0234-4068-8363-e44da9ce808a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\menu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\snake\snake.h">
+      <Filter>Scenes\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\scene_factory.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\scene_manager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\snake\snake.cpp">
+      <Filter>Scenes\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\menu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\scene_factory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\scene_manager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
