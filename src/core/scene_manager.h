@@ -2,16 +2,16 @@
 
 #include <memory>
 
-class Scene; // forward declaration
+#include "scene.h"
 
 class SceneManager
 {
 private:
-	std::unique_ptr<Scene> current;
+	std::unique_ptr<Scene> current_;
 
 public:
-	void changeScene(std::unique_ptr<Scene> newScene);
+	void ChangeScene(std::unique_ptr<Scene> newScene);
 
-	void update();
-	void draw();
+	void Update();
+	void Draw();
 };

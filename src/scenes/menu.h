@@ -1,19 +1,18 @@
 #pragma once
 
 #include "core/scene.h"
-
-class SceneManager; // forward declaration
+#include "core/scene_manager.h"
 
 class Menu : public Scene
 {
 private:
-	SceneManager* manager;
+	SceneManager& manager_;
 
 public:
-	Menu(SceneManager* m);
+	Menu(SceneManager& manager);
 
-	void init() override;
-	void update() override;
-	void draw() override;
-	void shutdown() override;
+	void Init() override;
+	void Update() override;
+	void Draw() override;
+	void Shutdown() override;
 };

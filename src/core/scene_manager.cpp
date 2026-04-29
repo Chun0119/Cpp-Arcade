@@ -1,39 +1,38 @@
 #include "scene_manager.h"
-#include "scene.h"
 
-void SceneManager::changeScene(std::unique_ptr<Scene> newScene)
+void SceneManager::ChangeScene(std::unique_ptr<Scene> newScene)
 {
-	if (current)
+	if (current_)
 	{
-		current->shutdown();
+		current_->Shutdown();
 	}
 
-	current = std::move(newScene);
+	current_ = std::move(newScene);
 
-	if (!current)
+	if (!current_)
 	{
 		return;
 	}
 
-	current->init();
+	current_->Init();
 }
 
-void SceneManager::update()
+void SceneManager::Update()
 {
-	if (!current)
+	if (!current_)
 	{
 		return;
 	}
 
-	current->update();
+	current_->Update();
 }
 
-void SceneManager::draw()
+void SceneManager::Draw()
 {
-	if (!current)
+	if (!current_)
 	{
 		return;
 	}
 
-	current->draw();
+	current_->Draw();
 }

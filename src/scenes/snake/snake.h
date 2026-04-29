@@ -1,10 +1,18 @@
 #pragma once
-#include "core/scene.h"
 
-class Snake : public Scene {
+#include <deque>
+
+#include "raylib.h"
+
+class Snake
+{
+private:
+	std::deque<Vector2> positions_;
+	Vector2 direction_;
+
 public:
-    void init() override;
-    void update() override;
-    void draw() override;
-    void shutdown() override;
+	void Draw();
+	void MoveToDirection();
+	void ChangeDirection();
+	void Grow();
 };

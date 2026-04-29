@@ -1,4 +1,5 @@
 #include "raylib.h"
+
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
 
@@ -8,16 +9,16 @@ int main()
 
 	SceneManager manager;
 
-	manager.changeScene(SceneFactory::createMenu(&manager));
+	manager.ChangeScene(SceneFactory::CreateMenu(manager));
 
 	while (!WindowShouldClose())
 	{
-		manager.update();
+		manager.Update();
 
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		manager.draw();
+		manager.Draw();
 
 		EndDrawing();
 	}

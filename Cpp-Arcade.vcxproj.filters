@@ -42,6 +42,12 @@
     <ClInclude Include="src\core\scene.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\snake\food.h">
+      <Filter>Scenes\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\snake\snake_game.h">
+      <Filter>Scenes\Snake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -58,6 +64,12 @@
     </ClCompile>
     <ClCompile Include="src\core\scene_manager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\snake\food.cpp">
+      <Filter>Scenes\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\snake\snake_game.cpp">
+      <Filter>Scenes\Snake</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

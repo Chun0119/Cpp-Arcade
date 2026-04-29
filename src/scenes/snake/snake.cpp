@@ -1,18 +1,21 @@
-#include "raylib.h"
 #include "snake.h"
 
-void Snake::init() {
+void Snake::Draw()
+{
 
 }
 
-void Snake::update() {
-    // game logic
+void Snake::MoveToDirection()
+{
+
 }
 
-void Snake::draw() {
-    DrawText("This is Game 1", 250, 250, 20, WHITE);
+void Snake::ChangeDirection()
+{
+
 }
 
-void Snake::shutdown() {
+void Snake::Grow()
+{
 
 }

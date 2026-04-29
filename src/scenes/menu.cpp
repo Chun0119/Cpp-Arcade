@@ -1,18 +1,19 @@
 #include "menu.h"
-#include "core/scene_manager.h"
-#include "core/scene_factory.h"
+
 #include "raylib.h"
 
-// constructor
-Menu::Menu(SceneManager* m) : manager(m) {}
+#include "core/scene_factory.h"
 
-void Menu::init()
+// constructor
+Menu::Menu(SceneManager& manager) : manager_(manager) {}
+
+void Menu::Init()
 {
 
 }
 
 // update logic (input + switching scenes)
-void Menu::update()
+void Menu::Update()
 {
 	Vector2 mouse = GetMousePosition();
 
@@ -20,12 +21,12 @@ void Menu::update()
 
 	if (CheckCollisionPointRec(mouse, snakeGameBtn) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{
-		manager->changeScene(SceneFactory::createSnake());
+		manager_.ChangeScene(SceneFactory::CreateSnake());
 	}
 }
 
 // drawing
-void Menu::draw()
+void Menu::Draw()
 {
 	DrawText("Main Menu", 320, 120, 30, WHITE);
 
@@ -33,7 +34,7 @@ void Menu::draw()
 	DrawText("Snake Game", 340, 215, 20, WHITE);
 }
 
-void Menu::shutdown()
+void Menu::Shutdown()
 {
 
 }
