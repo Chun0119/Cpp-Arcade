@@ -2,23 +2,25 @@
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
 
-int main() {
-    InitWindow(800, 600, "Cpp Arcade");
+int main()
+{
+	InitWindow(800, 600, "Cpp Arcade");
 
-    SceneManager manager;
+	SceneManager manager;
 
-    manager.changeScene(SceneFactory::createMenu(&manager));
+	manager.changeScene(SceneFactory::createMenu(&manager));
 
-    while (!WindowShouldClose()) {
-        manager.update();
+	while (!WindowShouldClose())
+	{
+		manager.update();
 
-        BeginDrawing();
-        ClearBackground(BLACK);
+		BeginDrawing();
+		ClearBackground(BLACK);
 
-        manager.draw();
+		manager.draw();
 
-        EndDrawing();
-    }
+		EndDrawing();
+	}
 
-    CloseWindow();
+	CloseWindow();
 }

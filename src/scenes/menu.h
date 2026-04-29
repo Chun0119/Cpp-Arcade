@@ -4,15 +4,16 @@
 
 class SceneManager; // forward declaration
 
-class Menu : public Scene {
+class Menu : public Scene
+{
 private:
-    SceneManager* manager;
+	SceneManager* manager;
 
 public:
-    Menu(SceneManager* m);
+	Menu(SceneManager* m);
 
-    void init() override;
-    void update() override;
-    void draw() override;
-    void shutdown() override;
+	void init() override;
+	void update() override;
+	void draw() override;
+	void shutdown() override;
 };

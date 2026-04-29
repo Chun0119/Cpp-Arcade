@@ -5,8 +5,9 @@
 
 class SceneManager;
 
-class SceneFactory {
+class SceneFactory
+{
 public:
-    static std::unique_ptr<Scene> createMenu(SceneManager* manager);
-    static std::unique_ptr<Scene> createSnake();
+	static std::unique_ptr<Scene> createMenu(SceneManager* manager);
+	static std::unique_ptr<Scene> createSnake();
 };

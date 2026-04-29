@@ -1,6 +1,7 @@
 #pragma once
 
-class Scene {
+class Scene
+{
 public:
 	virtual void init() = 0;
 	virtual void update() = 0;

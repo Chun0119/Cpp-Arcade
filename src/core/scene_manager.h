@@ -1,15 +1,17 @@
 #pragma once
+
 #include <memory>
 
 class Scene; // forward declaration
 
-class SceneManager {
+class SceneManager
+{
 private:
-    std::unique_ptr<Scene> current;
+	std::unique_ptr<Scene> current;
 
 public:
-    void changeScene(std::unique_ptr<Scene> newScene);
+	void changeScene(std::unique_ptr<Scene> newScene);
 
-    void update();
-    void draw();
+	void update();
+	void draw();
 };
