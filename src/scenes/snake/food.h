@@ -8,6 +8,8 @@ private:
 	Vector2 position_;
 
 public:
-	void Draw();
-	void ChangePosition();
+	void Draw(float cellSize);
+
+	Vector2 GetPosition();
+	void SetPosition(Vector2 newPosition);
 };
