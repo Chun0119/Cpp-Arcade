@@ -106,6 +106,16 @@ void SnakeGame::Draw()
 		case GameState::GameOver:
 			snake_.Draw();
 			food_.Draw();
+
+			std::string endingMessage = score_ >= config_.cellDimension.x * config_.cellDimension.y - config_.snakeStartLength ? "Congratulation!" : "Game Over";
+			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
+
+			int textX = (int)(playfieldRect.x + (playfieldRect.width - textWidth) / 2);
+			int textY = (int)(playfieldRect.y + (playfieldRect.height - config_.fontSize) / 2);
+
+			DrawRectangle(0, textY - config_.uiPadding, GetScreenWidth(), config_.fontSize + config_.uiPadding * 2, config_.primaryBackgroundColor);
+			DrawText(endingMessage.c_str(), textX, textY, config_.fontSize, config_.primaryTextColor);
+
 			backButton_.Draw();
 			startButton_.Draw();
 			break;

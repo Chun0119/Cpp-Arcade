@@ -5,7 +5,7 @@
 struct SnakeGameConfig
 {
 	// GRID / WORLD
-	float cellSize = 20;
+	float cellSize = 20.0f;
 	Vector2 cellDimension = {20.0f, 20.0f};
 
 	// Game area offset (where grid starts on screen)
