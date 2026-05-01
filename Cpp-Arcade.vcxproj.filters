@@ -22,6 +22,9 @@
     <Filter Include="Scenes\Snake">
       <UniqueIdentifier>{2f8d4dfb-0234-4068-8363-e44da9ce808a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{ada64aeb-f586-4c3d-93a7-3d7727db50d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
@@ -48,6 +51,12 @@
     <ClInclude Include="src\scenes\snake\snake_game.h">
       <Filter>Scenes\Snake</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\button.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\snake\snake_game_config.h">
+      <Filter>Scenes\Snake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -70,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="src\scenes\snake\snake_game.cpp">
       <Filter>Scenes\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\button.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

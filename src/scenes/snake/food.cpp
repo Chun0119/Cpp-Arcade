@@ -2,10 +2,18 @@
 
 #include "raylib.h"
 
-void Food::Draw(float cellSize)
+Food::Food(const SnakeGameConfig& config) : 
+	config_(config) 
+{ }
+
+void Food::Draw()
 {
-	Rectangle rect = Rectangle{position_.x * cellSize, position_.y * cellSize, cellSize, cellSize};
-	DrawRectangleRounded(rect, 0.5, 6, WHITE);
+	float radius = config_.cellSize * config_.foodRadiusScale;
+	int centerX = (int)(config_.offset.x + position_.x * config_.cellSize + config_.cellSize / 2.0f);
+	int centerY = (int)(config_.offset.y + position_.y * config_.cellSize + config_.cellSize / 2.0f);
+
+	DrawCircle(centerX, centerY, radius, config_.foodColor);
+	DrawCircle(centerX, centerY, radius * config_.foodGlowRadiusMultiplier, config_.foodGlowColor);
 }
 
 Vector2 Food::GetPosition()

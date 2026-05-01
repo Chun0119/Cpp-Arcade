@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "scene.h"
+class Scene; // forward declaration
 
 class SceneManager
 {

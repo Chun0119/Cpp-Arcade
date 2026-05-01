@@ -2,13 +2,20 @@
 
 #include "raylib.h"
 
+#include "snake_game_config.h"
+
 class Food
 {
 private:
-	Vector2 position_;
+	const SnakeGameConfig& config_;
+
+	Vector2 position_ = {0, 0};
 
 public:
-	void Draw(float cellSize);
+	Food() = default;
+	Food(const SnakeGameConfig& config);
+
+	void Draw();
 
 	Vector2 GetPosition();
 	void SetPosition(Vector2 newPosition);

@@ -1,14 +1,22 @@
 #include "snake.h"
 
+#include <deque>
+
 #include "raylib.h"
 #include "raymath.h"
 
-void Snake::Draw(float cellSize)
+#include "snake_game_config.h"
+
+Snake::Snake(const SnakeGameConfig& config) : 
+	config_(config) 
+{ }
+
+void Snake::Draw()
 {
 	for (int i = 0; i < positions_.size(); i++)
 	{
-		Rectangle rect = Rectangle{positions_[i].x * cellSize, positions_[i].y * cellSize, cellSize, cellSize};
-		DrawRectangleRounded(rect, 0.5, 6, WHITE);
+		Rectangle rect = Rectangle{config_.offset.x + positions_[i].x * config_.cellSize, config_.offset.y + positions_[i].y * config_.cellSize, config_.cellSize, config_.cellSize};
+		DrawRectangleRounded(rect, config_.snakeRoundness, 4, i == 0 ? config_.snakeHeadColor : config_.snakeBodyColor);
 	}
 }
 
@@ -16,30 +24,27 @@ void Snake::Init()
 {
 	positions_.clear();
 
-	positions_.push_back({5, 5});
-	positions_.push_back({4, 5});
-	positions_.push_back({3, 5});
+	Vector2 pos = config_.snakeStartPosition;
 
-	direction_ = {1, 0};
+	for (int i = 0; i < config_.snakeStartLength; ++i)
+	{
+		positions_.push_back({pos.x - i, pos.y});
+	}
 
+	direction_ = config_.snakeStartDirection;
 	canUpdateDirection_ = false;
 }
 
 void Snake::Move()
 {
-	double currentTime = GetTime();
-	if (currentTime - lastUpdateTime_ >= kMoveInterval)
-	{
-		lastUpdateTime_ = currentTime;
-		positions_.pop_back();
-		positions_.push_front(positions_.front() + direction_);
-		canUpdateDirection_ = true;
-	}
+	positions_.pop_back();
+	positions_.push_front(GetHeadNextPosition());
+	canUpdateDirection_ = true;
 }
 
 void Snake::Grow()
 {
-	positions_.push_front(positions_.front() + direction_);
+	positions_.push_front(GetHeadNextPosition());
 }
 
 bool Snake::IsOverlap(Vector2 objPosition)
@@ -56,7 +61,7 @@ bool Snake::IsOverlap(Vector2 objPosition)
 
 bool Snake::IsSelfOverlap()
 {
-	Vector2 head = GetHeadPosition();
+	Vector2 head = positions_.front();
 	for (size_t i = 1; i < positions_.size(); i++)
 	{
 		if (Vector2Equals(head, positions_[i]))
@@ -68,9 +73,9 @@ bool Snake::IsSelfOverlap()
 	return false;
 }
 
-Vector2 Snake::GetHeadPosition()
+Vector2 Snake::GetHeadNextPosition()
 {
-	return positions_.front();
+	return positions_.front() + direction_;
 }
 
 void Snake::SetDirection(Vector2 newDirection)

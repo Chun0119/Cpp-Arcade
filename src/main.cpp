@@ -9,14 +9,13 @@ int main()
 
 	SceneManager manager;
 
-	manager.ChangeScene(SceneFactory::CreateMenu(manager));
+	manager.ChangeScene(SceneFactory::CreateMenu());
 
 	while (!WindowShouldClose())
 	{
 		manager.Update();
 
 		BeginDrawing();
-		ClearBackground(BLACK);
 
 		manager.Draw();
 

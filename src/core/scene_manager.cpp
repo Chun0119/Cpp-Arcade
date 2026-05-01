@@ -1,5 +1,9 @@
 #include "scene_manager.h"
 
+#include <memory>
+
+#include "scene.h"
+
 void SceneManager::ChangeScene(std::unique_ptr<Scene> newScene)
 {
 	if (current_)
@@ -14,6 +18,7 @@ void SceneManager::ChangeScene(std::unique_ptr<Scene> newScene)
 		return;
 	}
 
+	current_->SetSceneManager(this);
 	current_->Init();
 }
 
