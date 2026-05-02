@@ -25,6 +25,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{ada64aeb-f586-4c3d-93a7-3d7727db50d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Pong">
+      <UniqueIdentifier>{5af65e0f-d76f-4ece-b0e8-f547b0f0df72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
@@ -57,6 +60,21 @@
     <ClInclude Include="src\scenes\snake\snake_game_config.h">
       <Filter>Scenes\Snake</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\pong\ball.h">
+      <Filter>Scenes\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\pong\paddle.h">
+      <Filter>Scenes\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\pong\paddle_ai.h">
+      <Filter>Scenes\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\pong\pong_game.h">
+      <Filter>Scenes\Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\pong\pong_game_config.h">
+      <Filter>Scenes\Pong</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -82,6 +100,18 @@
     </ClCompile>
     <ClCompile Include="src\components\button.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\pong\ball.cpp">
+      <Filter>Scenes\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\pong\paddle.cpp">
+      <Filter>Scenes\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\pong\paddle_ai.cpp">
+      <Filter>Scenes\Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\pong\pong_game.cpp">
+      <Filter>Scenes\Pong</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

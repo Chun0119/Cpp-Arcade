@@ -21,6 +21,13 @@ void Menu::Update()
 	{
 		sceneManager_->ChangeScene(SceneFactory::CreateSnake());
 	}
+
+	Rectangle pongGameBtn = {300, 410, 200, 50};
+
+	if (CheckCollisionPointRec(mouse, pongGameBtn) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+	{
+		sceneManager_->ChangeScene(SceneFactory::CreatePong());
+	}
 }
 
 // drawing
@@ -32,6 +39,9 @@ void Menu::Draw()
 
 	DrawRectangle(300, 200, 200, 50, DARKGRAY);
 	DrawText("Snake Game", 340, 215, 20, WHITE);
+
+	DrawRectangle(300, 410, 200, 50, DARKGRAY);
+	DrawText("Pong Game", 340, 425, 20, WHITE);
 }
 
 void Menu::Shutdown()

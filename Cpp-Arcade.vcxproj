@@ -307,6 +307,11 @@
     <ClInclude Include="src\core\scene_factory.h" />
     <ClInclude Include="src\core\scene_manager.h" />
     <ClInclude Include="src\scenes\menu.h" />
+    <ClInclude Include="src\scenes\pong\ball.h" />
+    <ClInclude Include="src\scenes\pong\paddle.h" />
+    <ClInclude Include="src\scenes\pong\paddle_ai.h" />
+    <ClInclude Include="src\scenes\pong\pong_game.h" />
+    <ClInclude Include="src\scenes\pong\pong_game_config.h" />
     <ClInclude Include="src\scenes\snake\food.h" />
     <ClInclude Include="src\scenes\snake\snake.h" />
     <ClInclude Include="src\scenes\snake\snake_game.h" />
@@ -318,6 +323,10 @@
     <ClCompile Include="src\core\scene_manager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scenes\menu.cpp" />
+    <ClCompile Include="src\scenes\pong\ball.cpp" />
+    <ClCompile Include="src\scenes\pong\paddle.cpp" />
+    <ClCompile Include="src\scenes\pong\paddle_ai.cpp" />
+    <ClCompile Include="src\scenes\pong\pong_game.cpp" />
     <ClCompile Include="src\scenes\snake\food.cpp" />
     <ClCompile Include="src\scenes\snake\snake.cpp" />
     <ClCompile Include="src\scenes\snake\snake_game.cpp" />
