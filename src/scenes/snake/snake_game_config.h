@@ -11,6 +11,7 @@ struct SnakeGameConfig
 	// Game area offset (where grid starts on screen)
 	Vector2 offset = {100.0f, 100.0f};
 
+	int targetFps = 60;
 	float moveDelaySeconds = 0.2f; // snake speed
 
 	// PLAYFIELD

@@ -66,9 +66,6 @@
     <ClInclude Include="src\scenes\pong\paddle.h">
       <Filter>Scenes\Pong</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\pong\paddle_ai.h">
-      <Filter>Scenes\Pong</Filter>
-    </ClInclude>
     <ClInclude Include="src\scenes\pong\pong_game.h">
       <Filter>Scenes\Pong</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
       <Filter>Scenes\Pong</Filter>
     </ClCompile>
     <ClCompile Include="src\scenes\pong\paddle.cpp">
-      <Filter>Scenes\Pong</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scenes\pong\paddle_ai.cpp">
       <Filter>Scenes\Pong</Filter>
     </ClCompile>
     <ClCompile Include="src\scenes\pong\pong_game.cpp">

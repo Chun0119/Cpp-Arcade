@@ -309,7 +309,6 @@
     <ClInclude Include="src\scenes\menu.h" />
     <ClInclude Include="src\scenes\pong\ball.h" />
     <ClInclude Include="src\scenes\pong\paddle.h" />
-    <ClInclude Include="src\scenes\pong\paddle_ai.h" />
     <ClInclude Include="src\scenes\pong\pong_game.h" />
     <ClInclude Include="src\scenes\pong\pong_game_config.h" />
     <ClInclude Include="src\scenes\snake\food.h" />
@@ -325,7 +324,6 @@
     <ClCompile Include="src\scenes\menu.cpp" />
     <ClCompile Include="src\scenes\pong\ball.cpp" />
     <ClCompile Include="src\scenes\pong\paddle.cpp" />
-    <ClCompile Include="src\scenes\pong\paddle_ai.cpp" />
     <ClCompile Include="src\scenes\pong\pong_game.cpp" />
     <ClCompile Include="src\scenes\snake\food.cpp" />
     <ClCompile Include="src\scenes\snake\snake.cpp" />

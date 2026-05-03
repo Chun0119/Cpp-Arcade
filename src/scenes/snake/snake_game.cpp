@@ -11,6 +11,7 @@
 
 #include "snake.h"
 #include "food.h"
+#include "snake_game_config.h"
 
 SnakeGame::SnakeGame() : 
 	config_(),
@@ -62,6 +63,7 @@ void SnakeGame::Init()
 {
 	Vector2 screenSize = config_.cellDimension * config_.cellSize + config_.offset * 2;
 	SetWindowSize((int)screenSize.x, (int)screenSize.y);
+	SetTargetFPS(config_.targetFps);
 }
 
 void SnakeGame::Update()

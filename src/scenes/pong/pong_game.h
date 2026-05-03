@@ -6,6 +6,8 @@
 
 #include "components/button.h"
 
+#include "ball.h"
+#include "paddle.h"
 #include "pong_game_config.h"
 
 class PongGame : public Scene
@@ -22,7 +24,12 @@ private:
 
 	GameState state_ = GameState::Menu;
 
-	int score_ = 0;
+	Ball ball_;
+	Paddle playerPaddle_;
+	Paddle aiPaddle_;
+
+	int playerScore_ = 0;
+	int aiScore_ = 0;
 
 	Button backButton_;
 	Button startButton_;
@@ -37,4 +44,7 @@ public:
 
 	void StartGame();
 	void UpdateGame();
+	void ScoreWhenBallHitWall();
+
+	bool HasBallHitPaddle();
 };
