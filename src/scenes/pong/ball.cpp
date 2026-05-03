@@ -16,7 +16,7 @@ void Ball::Draw()
 
 void Ball::Init(bool towardsLeft)
 {
-	position_ = config_.fieldDimension / 2;
+	position_ = config_.fieldDimension / 2 + config_.offset;
 	direction_ = config_.ballStartDirection * (towardsLeft ? -1 : 1);
 }
 
@@ -24,7 +24,7 @@ void Ball::Move()
 {
 	position_ += direction_;
 
-	if (position_.y + config_.ballRadius >= config_.fieldDimension.y || position_.y - config_.ballRadius <= 0)
+	if (position_.y + config_.ballRadius >= config_.fieldDimension.y + config_.offset.y || position_.y - config_.ballRadius <= config_.offset.y)
 	{
 		direction_.y *= -1;
 	}

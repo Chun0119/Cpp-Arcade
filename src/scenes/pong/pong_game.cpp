@@ -16,33 +16,54 @@
 PongGame::PongGame() :
 	config_(),
 	ball_(config_),
-	playerPaddle_(config_),
-	aiPaddle_(config_),
+	playerPaddle_(config_, true),
+	aiPaddle_(config_, false),
 	backButton_(
 		Rectangle{
-			100, 100, 100, 100
+			(config_.offset.x + config_.fieldDimension.x / 2 - config_.buttonWidth) / 2,
+			config_.offset.y + config_.fieldDimension.y + config_.uiPadding,
+			config_.buttonWidth,
+			config_.buttonHeight
 		},
 		"Back",
 		[this]()
 		{
 			sceneManager_->ChangeScene(SceneFactory::CreateMenu());
+		},
+		ButtonStyle{
+			config_.secondaryBackgroundColor,
+			config_.secondaryHoverBackgroundColor,
+			config_.secondaryTextColor,
+			config_.secondaryHoverTextColor,
+			config_.fontSize
 		}
 	),
 	startButton_(
 		Rectangle{
-			200, 100, 100, 100
+			(config_.offset.x + config_.fieldDimension.x / 2 * 3 - config_.buttonWidth) / 2,
+			config_.offset.y + config_.fieldDimension.y + config_.uiPadding,
+			config_.buttonWidth,
+			config_.buttonHeight
 		},
 		"Start Game",
 		[this]()
 		{
 			StartGame();
+		},
+		ButtonStyle{
+			config_.primaryBackgroundColor,
+			config_.primaryHoverBackgroundColor,
+			config_.primaryTextColor,
+			config_.primaryHoverTextColor,
+			config_.fontSize
 		}
 	)
 { }
 
 void PongGame::Init()
 {
-	SetWindowSize((int)config_.fieldDimension.x, (int)config_.fieldDimension.y);
+	Vector2 screenSize = config_.fieldDimension + config_.offset * 2;
+	SetWindowSize((int)screenSize.x, (int)screenSize.y);
 	SetTargetFPS(config_.targetFps);
 }
 
@@ -64,13 +85,26 @@ void PongGame::Update()
 void PongGame::Draw()
 {
 	ClearBackground(config_.backgroundColor);
-	
-	DrawLine((int)config_.fieldDimension.x / 2, 0, (int)config_.fieldDimension.x / 2, (int)config_.fieldDimension.y, config_.fieldLineColor);
+
+	std::string titleText = "Pong Game";
+	int titleTextWidth = MeasureText(titleText.c_str(), config_.fontSize);
+	DrawText(titleText.c_str(), (GetScreenWidth() - titleTextWidth) / 2, (int)(config_.offset.y - config_.fontSize - config_.uiPadding), config_.fontSize, config_.secondaryHoverTextColor);
+
+	DrawText(std::to_string(aiScore_).c_str(), config_.offset.x + config_.uiPadding, config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.aiScoreColor);
+
+	std::string scoreText = std::to_string(playerScore_);
+	int scoreTextWidth = MeasureText(scoreText.c_str(), config_.fontSize);
+	DrawText(scoreText.c_str(), config_.offset.x + config_.fieldDimension.x - config_.uiPadding - scoreTextWidth, config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.playerScoreColor);
+
+	Rectangle playfieldRect = {config_.offset.x, config_.offset.y, config_.fieldDimension.x, config_.fieldDimension.y};
+	DrawRectangleRec(playfieldRect, config_.playfieldColor);
+	DrawRectangleLinesEx({playfieldRect.x - config_.playfieldBorderThickness, playfieldRect.y - config_.playfieldBorderThickness, playfieldRect.width + config_.playfieldBorderThickness * 2, playfieldRect.height + config_.playfieldBorderThickness * 2}, config_.playfieldBorderThickness, config_.secondaryBackgroundColor);
+
+	DrawRectangle((int)(playfieldRect.x + playfieldRect.width / 2 - config_.playfieldBorderThickness / 2), (int)config_.offset.y, config_.playfieldBorderThickness, playfieldRect.height, config_.fieldLineColor);
 
 	switch (state_)
 	{
 		case GameState::Menu:
-		case GameState::GameOver:
 			backButton_.Draw();
 			startButton_.Draw();
 			break;
@@ -78,6 +112,19 @@ void PongGame::Draw()
 			ball_.Draw();
 			playerPaddle_.Draw();
 			aiPaddle_.Draw();
+			break;
+		case GameState::GameOver:
+			std::string endingMessage = playerScore_ >= config_.winningScore ? "Congratulation!" : "Game Over";
+			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
+
+			int textX = (int)(playfieldRect.x + (playfieldRect.width - textWidth) / 2);
+			int textY = (int)(playfieldRect.y + (playfieldRect.height - config_.fontSize) / 2);
+
+			DrawRectangle(0, textY - config_.uiPadding, GetScreenWidth(), config_.fontSize + config_.uiPadding * 2, config_.primaryBackgroundColor);
+			DrawText(endingMessage.c_str(), textX, textY, config_.fontSize, config_.primaryTextColor);
+
+			backButton_.Draw();
+			startButton_.Draw();
 			break;
 	}
 }
@@ -93,8 +140,8 @@ void PongGame::StartGame()
 	aiScore_ = 0;
 
 	ball_.Init(false);
-	playerPaddle_.Init(false);
-	aiPaddle_.Init(true);
+	playerPaddle_.Init();
+	aiPaddle_.Init();
 
 	state_ = GameState::Running;
 }

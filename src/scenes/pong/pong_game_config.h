@@ -8,20 +8,30 @@ struct PongGameConfig
 
 	// PLAYFIELD
 	Color backgroundColor = {11, 19, 32, 255};   // #0B1320
-	Vector2 fieldDimension = {1200.0f, 800.0f};
-	Color fieldLineColor = {255, 77, 77, 255};   // #FF4D4D
+	Vector2 fieldDimension = {1200.0f, 600.0f};
+	Vector2 offset = {16.0f, 66.0f};
+	Color playfieldColor = {17, 27, 46, 255};   // #111B2E
+	Color fieldLineColor = {62, 235, 127, 80};  // transparent green
+	float playfieldBorderThickness = 5.0f;
 
 	// BALL
 	Vector2 ballStartDirection = {4.0f, 4.0f};
 	float ballRadius = 20.0f;
-	Color ballColor = {255, 77, 77, 255};   // #FF4D4D
+	Color ballColor = {102, 255, 170, 255};
 
 	// PADDLE
 	Vector2 paddleSize = {25.0f, 125.0f};
 	float paddleSpeed = 6.0f;
-	Color paddleColor = {255, 77, 77, 255};   // #FF4D4D
+	Color playerPaddleColor = {62, 235, 127, 255};
+	Color aiPaddleColor = {255, 77, 77, 255};
 
 	// UI LAYOUT
+	Color playerScoreColor = {102, 255, 170, 255};
+	Color aiScoreColor = {255, 77, 77, 255};
+
+	Color winColor = {62, 235, 127, 255}; // green
+	Color loseColor = {255, 77, 77, 255};  // red
+
 	float buttonWidth = 200.0f;
 	float buttonHeight = 50.0f;
 
