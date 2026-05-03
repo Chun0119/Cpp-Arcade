@@ -46,5 +46,5 @@ public:
 	void UpdateGame();
 	void ScoreWhenBallHitWall();
 
-	bool HasBallHitPaddle();
+	bool HasBallHitPaddle(Vector2 paddlePosition);
 };

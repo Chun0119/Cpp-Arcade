@@ -90,17 +90,17 @@ void PongGame::Draw()
 	int titleTextWidth = MeasureText(titleText.c_str(), config_.fontSize);
 	DrawText(titleText.c_str(), (GetScreenWidth() - titleTextWidth) / 2, (int)(config_.offset.y - config_.fontSize - config_.uiPadding), config_.fontSize, config_.secondaryHoverTextColor);
 
-	DrawText(std::to_string(aiScore_).c_str(), config_.offset.x + config_.uiPadding, config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.aiScoreColor);
+	DrawText(std::to_string(aiScore_).c_str(), (int)config_.offset.x + config_.uiPadding, (int)config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.aiScoreColor);
 
 	std::string scoreText = std::to_string(playerScore_);
 	int scoreTextWidth = MeasureText(scoreText.c_str(), config_.fontSize);
-	DrawText(scoreText.c_str(), config_.offset.x + config_.fieldDimension.x - config_.uiPadding - scoreTextWidth, config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.playerScoreColor);
+	DrawText(scoreText.c_str(), (int)(config_.offset.x + config_.fieldDimension.x - config_.uiPadding - scoreTextWidth), (int)(config_.offset.y - config_.uiPadding - config_.fontSize), config_.fontSize, config_.playerScoreColor);
 
 	Rectangle playfieldRect = {config_.offset.x, config_.offset.y, config_.fieldDimension.x, config_.fieldDimension.y};
 	DrawRectangleRec(playfieldRect, config_.playfieldColor);
 	DrawRectangleLinesEx({playfieldRect.x - config_.playfieldBorderThickness, playfieldRect.y - config_.playfieldBorderThickness, playfieldRect.width + config_.playfieldBorderThickness * 2, playfieldRect.height + config_.playfieldBorderThickness * 2}, config_.playfieldBorderThickness, config_.secondaryBackgroundColor);
 
-	DrawRectangle((int)(playfieldRect.x + playfieldRect.width / 2 - config_.playfieldBorderThickness / 2), (int)config_.offset.y, config_.playfieldBorderThickness, playfieldRect.height, config_.fieldLineColor);
+	DrawRectangle((int)(playfieldRect.x + playfieldRect.width / 2 - config_.playfieldBorderThickness / 2), (int)config_.offset.y, (int)config_.playfieldBorderThickness, (int)playfieldRect.height, config_.fieldLineColor);
 
 	switch (state_)
 	{
@@ -159,16 +159,27 @@ void PongGame::UpdateGame()
 
 	Vector2 ballPosition = ball_.GetPosition();
 	Vector2 aiPaddlePosition = aiPaddle_.GetPosition();
-	aiPaddle_.Move(ballPosition.y < aiPaddlePosition.y);
+	Vector2 playerPaddlePosition = playerPaddle_.GetPosition();
 
-	if (HasBallHitPaddle())
+	float paddleCenter = aiPaddlePosition.y + config_.paddleSize.y / 2;
+	float diff = paddleCenter - ballPosition.y;
+	if (abs(diff) > config_.paddleMoveThreshold)
 	{
-		ball_.Bounce();
+		aiPaddle_.Move(ballPosition.y < paddleCenter);
+	}
+
+	ball_.Move();
+
+	if (HasBallHitPaddle(aiPaddlePosition))
+	{
+		ball_.Bounce(aiPaddlePosition, config_.paddleSize);
+	}
+	else if (HasBallHitPaddle(playerPaddlePosition))
+	{
+		ball_.Bounce(playerPaddlePosition, config_.paddleSize);
 	}
 
 	ScoreWhenBallHitWall();
-
-	ball_.Move();
 
 	if (playerScore_ >= config_.winningScore || aiScore_ >= config_.winningScore)
 	{
@@ -192,12 +203,25 @@ void PongGame::ScoreWhenBallHitWall()
 	}
 }
 
-bool PongGame::HasBallHitPaddle()
+bool PongGame::HasBallHitPaddle(Vector2 paddlePosition)
 {
 	Vector2 ballPosition = ball_.GetPosition();
-	Vector2 aiPaddlePosition = aiPaddle_.GetPosition();
-	Vector2 playerPaddlePosition = playerPaddle_.GetPosition();
+	Vector2 closest;
 
-	return CheckCollisionCircleRec(ballPosition, config_.ballRadius, {aiPaddlePosition.x, aiPaddlePosition.y, config_.paddleSize.x, config_.paddleSize.y}) ||
-		CheckCollisionCircleRec(ballPosition, config_.ballRadius, {playerPaddlePosition.x, playerPaddlePosition.y, config_.paddleSize.x, config_.paddleSize.y});
+	closest.x = Clamp(ballPosition.x,
+					  paddlePosition.x,
+					  paddlePosition.x + config_.paddleSize.x);
+
+	closest.y = Clamp(ballPosition.y,
+					  paddlePosition.y,
+					  paddlePosition.y + config_.paddleSize.y);
+
+	Vector2 diff = {
+		ballPosition.x - closest.x,
+		ballPosition.y - closest.y
+	};
+
+	float distSq = diff.x * diff.x + diff.y * diff.y;
+
+	return distSq <= config_.ballRadius * config_.ballRadius;
 }

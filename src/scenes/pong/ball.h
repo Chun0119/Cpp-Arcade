@@ -20,7 +20,7 @@ public:
 
 	void Init(bool towardsLeft);
 	void Move();
-	void Bounce();
+	void Bounce(Vector2 paddlePos, Vector2 paddleSize);
 
 	Vector2 GetPosition();
 };

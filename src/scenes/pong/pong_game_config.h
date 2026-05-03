@@ -15,13 +15,15 @@ struct PongGameConfig
 	float playfieldBorderThickness = 5.0f;
 
 	// BALL
-	Vector2 ballStartDirection = {4.0f, 4.0f};
+	int ballStartAngleRange = 45;
+	float ballSpeed = 7.0f;
 	float ballRadius = 20.0f;
 	Color ballColor = {102, 255, 170, 255};
 
 	// PADDLE
 	Vector2 paddleSize = {25.0f, 125.0f};
-	float paddleSpeed = 6.0f;
+	float paddleSpeed = 4.0f;
+	float paddleMoveThreshold = 10.0f;
 	Color playerPaddleColor = {62, 235, 127, 255};
 	Color aiPaddleColor = {255, 77, 77, 255};
 
