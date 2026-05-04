@@ -72,6 +72,15 @@
     <ClInclude Include="src\scenes\pong\pong_game_config.h">
       <Filter>Scenes\Pong</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\text_button.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\menu_game_button.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\grid_layout.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -107,6 +116,15 @@
     <ClCompile Include="src\scenes\pong\pong_game.cpp">
       <Filter>Scenes\Pong</Filter>
     </ClCompile>
+    <ClCompile Include="src\components\text_button.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\menu_game_button.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\grid_layout.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico">
@@ -119,7 +137,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\wabbit_alpha.png">
+    <Image Include="resources\pong.png">
+      <Filter>Game Resource Files</Filter>
+    </Image>
+    <Image Include="resources\snake.png">
       <Filter>Game Resource Files</Filter>
     </Image>
   </ItemGroup>

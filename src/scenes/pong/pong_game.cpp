@@ -5,7 +5,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "components/button.h"
+#include "components/text_button.h"
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
 

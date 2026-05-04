@@ -4,7 +4,7 @@
 
 #include "raylib.h"
 
-#include "components/button.h"
+#include "components/text_button.h"
 
 #include "snake_game_config.h"
 #include "snake.h"
@@ -30,8 +30,8 @@ private:
 	int score_ = 0;
 	double lastUpdateTime_ = 0.0;
 
-	Button backButton_;
-	Button startButton_;
+	TextButton backButton_;
+	TextButton startButton_;
 
 public:
 	SnakeGame();

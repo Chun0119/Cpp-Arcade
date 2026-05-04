@@ -4,47 +4,61 @@
 
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
+#include "components/grid_layout.h"
+
+#include "menu_game_button.h"
+
+Menu::Menu() : 
+    gridLayout_(
+        {20, 100},   // start position
+        {200, 200},   // cell size
+        20.0f,        // spacing
+        4             // columns
+    )
+{ }
 
 void Menu::Init()
 {
-	SetWindowSize(800, 600);
+	SetWindowSize(900, 600);
+
+    gameButtons_.reserve(2);
+
+    gameButtons_.emplace_back(
+        gridLayout_.GetCell(0),
+        "snake.png",
+        "Snake Game",
+        [this]() { sceneManager_->ChangeScene(SceneFactory::CreateSnake()); }
+    );
+
+    gameButtons_.emplace_back(
+        gridLayout_.GetCell(1),
+        "pong.png",
+        "Pong Game",
+        [this]() { sceneManager_->ChangeScene(SceneFactory::CreatePong()); }
+    );
 }
 
-// update logic (input + switching scenes)
 void Menu::Update()
 {
-	Vector2 mouse = GetMousePosition();
-
-	Rectangle snakeGameBtn = {300, 200, 200, 50};
-
-	if (CheckCollisionPointRec(mouse, snakeGameBtn) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+	for (auto& button : gameButtons_)
 	{
-		sceneManager_->ChangeScene(SceneFactory::CreateSnake());
-	}
-
-	Rectangle pongGameBtn = {300, 410, 200, 50};
-
-	if (CheckCollisionPointRec(mouse, pongGameBtn) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-	{
-		sceneManager_->ChangeScene(SceneFactory::CreatePong());
+		button.Update();
 	}
 }
 
 // drawing
 void Menu::Draw()
 {
-	ClearBackground(BLACK);
+	ClearBackground({8, 12, 20, 255});
 
-	DrawText("Main Menu", 320, 120, 30, WHITE);
+	DrawText("Main Menu", 370, 20, 30, {255, 209, 102, 255});
 
-	DrawRectangle(300, 200, 200, 50, DARKGRAY);
-	DrawText("Snake Game", 340, 215, 20, WHITE);
-
-	DrawRectangle(300, 410, 200, 50, DARKGRAY);
-	DrawText("Pong Game", 340, 425, 20, WHITE);
+	for (auto& button : gameButtons_)
+	{
+		button.Draw();
+	}
 }
 
 void Menu::Shutdown()
 {
-
 }

@@ -4,7 +4,7 @@
 
 #include "raylib.h"
 
-#include "components/button.h"
+#include "components/text_button.h"
 
 #include "ball.h"
 #include "paddle.h"
@@ -31,8 +31,8 @@ private:
 	int playerScore_ = 0;
 	int aiScore_ = 0;
 
-	Button backButton_;
-	Button startButton_;
+	TextButton backButton_;
+	TextButton startButton_;
 
 public:
 	PongGame();

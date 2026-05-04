@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <functional>
 
 #include "raylib.h"
@@ -16,20 +15,18 @@ struct ButtonStyle
 
 class Button
 {
-private:
+protected:
 	Rectangle rect_ = {0, 0, 0, 0};
 	ButtonStyle style_;
-	std::string label_;
 	std::function<void()> onClick_;
 
 	bool isHovered_ = false;
 
 public:
-	Button(Rectangle rect, std::string label, std::function<void()> onClick);
-	Button(Rectangle rect, std::string label, std::function<void()> onClick, ButtonStyle style);
+	Button(Rectangle rect, std::function<void()> onClick);
+	Button(Rectangle rect, std::function<void()> onClick, ButtonStyle style);
 
 	void Update();
-	void Draw();
 
-	void SetRect(Rectangle newRect);
+	virtual void Draw() = 0;
 };

@@ -303,10 +303,13 @@
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h" />
     <ClInclude Include="src\components\button.h" />
+    <ClInclude Include="src\components\grid_layout.h" />
+    <ClInclude Include="src\components\text_button.h" />
     <ClInclude Include="src\core\scene.h" />
     <ClInclude Include="src\core\scene_factory.h" />
     <ClInclude Include="src\core\scene_manager.h" />
     <ClInclude Include="src\scenes\menu.h" />
+    <ClInclude Include="src\scenes\menu_game_button.h" />
     <ClInclude Include="src\scenes\pong\ball.h" />
     <ClInclude Include="src\scenes\pong\paddle.h" />
     <ClInclude Include="src\scenes\pong\pong_game.h" />
@@ -318,10 +321,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\button.cpp" />
+    <ClCompile Include="src\components\grid_layout.cpp" />
+    <ClCompile Include="src\components\text_button.cpp" />
     <ClCompile Include="src\core\scene_factory.cpp" />
     <ClCompile Include="src\core\scene_manager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scenes\menu.cpp" />
+    <ClCompile Include="src\scenes\menu_game_button.cpp" />
     <ClCompile Include="src\scenes\pong\ball.cpp" />
     <ClCompile Include="src\scenes\pong\paddle.cpp" />
     <ClCompile Include="src\scenes\pong\pong_game.cpp" />
@@ -336,12 +342,13 @@
     <ResourceCompile Include="src\application.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\wabbit_alpha.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="raylib.vcxproj">
       <Project>{8898EA18-743A-15EF-5DF5-284349369C3F}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\pong.png" />
+    <Image Include="resources\snake.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
