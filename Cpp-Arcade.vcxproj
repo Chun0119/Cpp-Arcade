@@ -318,6 +318,8 @@
     <ClInclude Include="src\scenes\snake\snake.h" />
     <ClInclude Include="src\scenes\snake\snake_game.h" />
     <ClInclude Include="src\scenes\snake\snake_game_config.h" />
+    <ClInclude Include="src\scenes\space_invaders\space_invaders.h" />
+    <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\button.cpp" />
@@ -334,6 +336,7 @@
     <ClCompile Include="src\scenes\snake\food.cpp" />
     <ClCompile Include="src\scenes\snake\snake.cpp" />
     <ClCompile Include="src\scenes\snake\snake_game.cpp" />
+    <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />

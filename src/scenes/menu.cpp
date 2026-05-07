@@ -21,7 +21,7 @@ void Menu::Init()
 {
 	SetWindowSize(900, 600);
 
-    gameButtons_.reserve(2);
+    gameButtons_.reserve(3);
 
     gameButtons_.emplace_back(
         gridLayout_.GetCell(0),
@@ -35,6 +35,13 @@ void Menu::Init()
         "pong.png",
         "Pong Game",
         [this]() { sceneManager_->ChangeScene(SceneFactory::CreatePong()); }
+    );
+
+    gameButtons_.emplace_back(
+        gridLayout_.GetCell(2),
+        "space_invaders.png",
+        "Space Invaders",
+        [this]() { sceneManager_->ChangeScene(SceneFactory::CreateSpaceInvaders()); }
     );
 }
 

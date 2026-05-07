@@ -28,6 +28,9 @@
     <Filter Include="Scenes\Pong">
       <UniqueIdentifier>{5af65e0f-d76f-4ece-b0e8-f547b0f0df72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Space Invaders">
+      <UniqueIdentifier>{486f44dd-c6df-409d-9d7a-9efc23413159}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
@@ -81,6 +84,12 @@
     <ClInclude Include="src\components\grid_layout.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\space_invaders.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -124,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="src\components\grid_layout.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp">
+      <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
