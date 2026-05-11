@@ -61,6 +61,9 @@ void SpaceInvaders::Init()
 	Vector2 screenSize = config_.fieldDimension + config_.offset * 2;
 	SetWindowSize((int)screenSize.x, (int)screenSize.y);
 	SetTargetFPS(config_.targetFps);
+
+	spaceshipTexture_ = LoadTexture("space_invaders/spaceship.png");
+	spaceship_.SetUp(&config_, &spaceshipTexture_);
 }
 
 void SpaceInvaders::Update()
@@ -97,6 +100,12 @@ void SpaceInvaders::Draw()
 			startButton_.Draw();
 			break;
 		case GameState::Running:
+			spaceship_.Draw();
+
+			for (auto& laser : lasers_)
+			{
+				laser.Draw();
+			}
 			break;
 		case GameState::GameOver:
 			backButton_.Draw();
@@ -107,14 +116,48 @@ void SpaceInvaders::Draw()
 
 void SpaceInvaders::Shutdown()
 {
-
+	UnloadTexture(spaceshipTexture_);
 }
 
 void SpaceInvaders::StartGame()
 {
+	spaceship_.Init();
+
 	state_ = GameState::Running;
 }
 
 void SpaceInvaders::UpdateGame()
 {
+	if (IsKeyDown(KEY_LEFT))
+	{
+		spaceship_.Move(true);
+	}
+	else if (IsKeyDown(KEY_RIGHT))
+	{
+		spaceship_.Move(false);
+	}
+
+	if (IsKeyDown(KEY_SPACE))
+	{
+		spaceship_.Fire(lasers_);
+	}
+
+	for (auto& laser : lasers_)
+	{
+		laser.Move();
+	}
+
+	CleanUpLasers();
+}
+
+void SpaceInvaders::CleanUpLasers()
+{
+	lasers_.erase(
+		std::remove_if(lasers_.begin(), lasers_.end(),
+					   [](const Laser& laser)
+					   {
+						   return !laser.IsActive();
+					   }),
+		lasers_.end()
+	);
 }

@@ -6,11 +6,20 @@ struct SpaceInvadersConfig
 
 	// PLAYFIELD
 	Color backgroundColor = {11, 19, 32, 255};   // #0B1320
-	Vector2 fieldDimension = {1200.0f, 600.0f};
+	Vector2 fieldDimension = {900.0f, 700.0f};
 	Vector2 offset = {16.0f, 66.0f};
 	Color playfieldColor = {17, 27, 46, 255};   // #111B2E
-	Color fieldLineColor = {62, 235, 127, 80};  // transparent green
 	float playfieldBorderThickness = 5.0f;
+
+	// SPACESHIP
+	float spaceshipSpeed = 4.0f;
+	float spaceshipSize = 80.0f;
+	double spaceshipFireInterval = 0.35;
+
+	// LASER
+	float laserSpeed = 4.0f;
+	Vector2 laserSize = {4, 15};
+	Color laserColor = {62, 235, 127, 80};
 
 	// UI LAYOUT
 	float buttonWidth = 200.0f;
