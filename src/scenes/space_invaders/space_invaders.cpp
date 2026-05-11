@@ -9,6 +9,9 @@
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
 
+#include "spaceship.h"
+#include "laser.h"
+#include "obstacle.h"
 #include "space_invaders_config.h"
 
 SpaceInvaders::SpaceInvaders() :
@@ -106,6 +109,11 @@ void SpaceInvaders::Draw()
 			{
 				laser.Draw();
 			}
+
+			for (auto& obstacles : obstacles_)
+			{
+				obstacles.Draw();
+			}
 			break;
 		case GameState::GameOver:
 			backButton_.Draw();
@@ -122,6 +130,8 @@ void SpaceInvaders::Shutdown()
 void SpaceInvaders::StartGame()
 {
 	spaceship_.Init();
+	lasers_.clear();
+	ResetObstacles();
 
 	state_ = GameState::Running;
 }
@@ -148,6 +158,22 @@ void SpaceInvaders::UpdateGame()
 	}
 
 	CleanUpLasers();
+}
+
+void SpaceInvaders::ResetObstacles()
+{
+	obstacles_.clear();
+
+	int obstacleHeight = config_.obstacleShape.size() * config_.obstacleBlockSize;
+	int obstacleWidth = config_.obstacleShape[0].size() * config_.obstacleBlockSize;
+	float gap = (config_.fieldDimension.x - config_.obstacleAmount * obstacleWidth) / (config_.obstacleAmount + 1);
+	float positionY = config_.offset.y + config_.fieldDimension.y - config_.spaceshipSize - obstacleHeight - config_.uiPadding * 2;
+
+	for (int i = 0; i < config_.obstacleAmount; i++)
+	{
+		float offsetX = config_.offset.x + (i + 1) * gap + i * obstacleWidth;
+		obstacles_.emplace_back(&config_, Vector2{offsetX, positionY});
+	}
 }
 
 void SpaceInvaders::CleanUpLasers()

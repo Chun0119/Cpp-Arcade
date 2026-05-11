@@ -10,6 +10,7 @@
 
 #include "spaceship.h"
 #include "laser.h"
+#include "obstacle.h"
 #include "space_invaders_config.h"
 
 class SpaceInvaders : public Scene
@@ -31,6 +32,8 @@ private:
 
 	std::vector<Laser> lasers_;
 
+	std::vector<Obstacle> obstacles_;
+
 	TextButton backButton_;
 	TextButton startButton_;
 
@@ -45,5 +48,6 @@ public:
 	void StartGame();
 	void UpdateGame();
 
+	void ResetObstacles();
 	void CleanUpLasers();
 };

@@ -1,24 +1,23 @@
 #pragma once
 
+#include <vector>
+
 #include "raylib.h"
 
 #include "space_invaders_config.h"
+#include "block.h"
 
-class Laser
+class Obstacle
 {
 private:
 	const SpaceInvadersConfig* config_ = nullptr;
 
 	Vector2 position_ = {0, 0};
-	float speed_ = 0;
-	bool active_ = false;
+	std::vector<Block> blocks_;
+	std::vector<std::vector<int>> grids_;
 
 public:
-	Laser(const SpaceInvadersConfig* config, Vector2 position, float speed);
+	Obstacle(const SpaceInvadersConfig* config, Vector2 position);
 
 	void Draw();
-
-	void Move();
-
-	bool IsActive() const;
 };

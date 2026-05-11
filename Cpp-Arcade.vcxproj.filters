@@ -96,6 +96,12 @@
     <ClInclude Include="src\scenes\space_invaders\laser.h">
       <Filter>Scenes\Space Invaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\block.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\obstacle.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -147,6 +153,12 @@
       <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
     <ClCompile Include="src\scenes\space_invaders\laser.cpp">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\space_invaders\block.cpp">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\space_invaders\obstacle.cpp">
       <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
   </ItemGroup>

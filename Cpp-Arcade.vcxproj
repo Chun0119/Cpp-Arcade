@@ -318,7 +318,9 @@
     <ClInclude Include="src\scenes\snake\snake.h" />
     <ClInclude Include="src\scenes\snake\snake_game.h" />
     <ClInclude Include="src\scenes\snake\snake_game_config.h" />
+    <ClInclude Include="src\scenes\space_invaders\block.h" />
     <ClInclude Include="src\scenes\space_invaders\laser.h" />
+    <ClInclude Include="src\scenes\space_invaders\obstacle.h" />
     <ClInclude Include="src\scenes\space_invaders\spaceship.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h" />
@@ -338,7 +340,9 @@
     <ClCompile Include="src\scenes\snake\food.cpp" />
     <ClCompile Include="src\scenes\snake\snake.cpp" />
     <ClCompile Include="src\scenes\snake\snake_game.cpp" />
+    <ClCompile Include="src\scenes\space_invaders\block.cpp" />
     <ClCompile Include="src\scenes\space_invaders\laser.cpp" />
+    <ClCompile Include="src\scenes\space_invaders\obstacle.cpp" />
     <ClCompile Include="src\scenes\space_invaders\spaceship.cpp" />
     <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp" />
   </ItemGroup>
