@@ -1,6 +1,7 @@
 #include "space_invaders.h"
 
 #include <string>
+#include <fstream>
 
 #include "raylib.h"
 #include "raymath.h"
@@ -75,10 +76,21 @@ void SpaceInvaders::Init()
 
 	ufoTexture_ = LoadTexture("space_invaders/ufo.png");
 	ufo_.SetUp(&config_, &ufoTexture_);
+
+	LoadHighScore();
+
+	backgroundMusic_ = LoadMusicStream("space_invaders/bgm.ogg");
+	PlayMusicStream(backgroundMusic_);
+
+	shootSound_ = LoadSound("space_invaders/laser.ogg");
+	explosionSound_ = LoadSound("space_invaders/explosion.ogg");
+	bonusSound_ = LoadSound("space_invaders/bonus.ogg");
 }
 
 void SpaceInvaders::Update()
 {
+	UpdateMusicStream(backgroundMusic_);
+
 	switch (state_)
 	{
 		case GameState::Menu:
@@ -104,6 +116,13 @@ void SpaceInvaders::Draw()
 	DrawRectangleRec(playfieldRect, config_.playfieldColor);
 	DrawRectangleLinesEx({playfieldRect.x - config_.playfieldBorderThickness, playfieldRect.y - config_.playfieldBorderThickness, playfieldRect.width + config_.playfieldBorderThickness * 2, playfieldRect.height + config_.playfieldBorderThickness * 2}, config_.playfieldBorderThickness, config_.secondaryBackgroundColor);
 
+	std::string scoreText = "Score: " + std::to_string(score_);
+	DrawText(scoreText.c_str(), (int)config_.offset.x + config_.uiPadding, (int)config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.playerScoreColor);
+
+	std::string highScoreText = "High Score: " + std::to_string(highScore_);
+	int highScoreTexttWidth = MeasureText(highScoreText.c_str(), config_.fontSize);
+	DrawText(highScoreText.c_str(), (int)(config_.offset.x + config_.fieldDimension.x - config_.uiPadding - highScoreTexttWidth), (int)(config_.offset.y - config_.uiPadding - config_.fontSize), config_.fontSize, config_.playerScoreColor);
+
 	switch (state_)
 	{
 		case GameState::Menu:
@@ -111,7 +130,9 @@ void SpaceInvaders::Draw()
 			startButton_.Draw();
 			break;
 		case GameState::Running:
+		{
 			spaceship_.Draw();
+
 			for (auto& obstacles : obstacles_)
 			{
 				obstacles.Draw();
@@ -121,6 +142,8 @@ void SpaceInvaders::Draw()
 			{
 				alien.Draw();
 			}
+
+			ufo_.Draw();
 
 			for (auto& laser : spaceshipLasers_)
 			{
@@ -132,9 +155,25 @@ void SpaceInvaders::Draw()
 				laser.Draw();
 			}
 
-			ufo_.Draw();
+			Rectangle source = {0.0f, 0.0f, (float)spaceshipTexture_.width, (float)spaceshipTexture_.height};
+			Vector2 origin = {0.0f, 0.0f};
+			for (int i = 0; i < lives_; i++)
+			{
+				Rectangle dest = {config_.offset.x + i * config_.spaceshipSize, config_.offset.y + config_.fieldDimension.y + config_.uiPadding, config_.spaceshipLivesSize, config_.spaceshipLivesSize};
+				DrawTexturePro(spaceshipTexture_, source, dest, origin, 0.0f, WHITE);
+			}
 			break;
+		}
 		case GameState::GameOver:
+			std::string endingMessage = lives_ <= 0 ? "Game Over" : "Congratulation!";
+			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
+
+			int textX = (int)(playfieldRect.x + (playfieldRect.width - textWidth) / 2);
+			int textY = (int)(playfieldRect.y + (playfieldRect.height - config_.fontSize) / 2);
+
+			DrawRectangle(0, textY - config_.uiPadding, GetScreenWidth(), config_.fontSize + config_.uiPadding * 2, config_.primaryBackgroundColor);
+			DrawText(endingMessage.c_str(), textX, textY, config_.fontSize, config_.primaryTextColor);
+
 			backButton_.Draw();
 			startButton_.Draw();
 			break;
@@ -147,6 +186,10 @@ void SpaceInvaders::Shutdown()
 	UnloadTexture(alien1Texture_);
 	UnloadTexture(alien2Texture_);
 	UnloadTexture(ufoTexture_);
+	UnloadMusicStream(backgroundMusic_);
+	UnloadSound(shootSound_);
+	UnloadSound(explosionSound_);
+	UnloadSound(bonusSound_);
 }
 
 void SpaceInvaders::StartGame()
@@ -156,6 +199,9 @@ void SpaceInvaders::StartGame()
 	ResetObstacles();
 	ResetAliens();
 	ufoSpawnInterval_ = GetRandomValue(config_.ufoSpawnIntervalMin, config_.ufoSpawnIntervalMax);
+
+	lives_ = config_.spaceshipLives;
+	score_ = 0;
 
 	state_ = GameState::Running;
 }
@@ -173,7 +219,10 @@ void SpaceInvaders::UpdateGame()
 
 	if (IsKeyDown(KEY_SPACE))
 	{
-		spaceship_.Fire(spaceshipLasers_);
+		if (spaceship_.Fire(spaceshipLasers_))
+		{
+			PlaySound(shootSound_);
+		}
 	}
 
 	for (auto& laser : spaceshipLasers_)
@@ -192,6 +241,16 @@ void SpaceInvaders::UpdateGame()
 
 	CheckForCollisions();
 	CleanUp();
+
+	if (lives_ <= 0 || aliens_.empty())
+	{
+		if (score_ > highScore_)
+		{
+			highScore_ = score_;
+			SaveHighScore();
+		}
+		state_ = GameState::GameOver;
+	}
 }
 
 void SpaceInvaders::ResetAliens()
@@ -204,7 +263,7 @@ void SpaceInvaders::ResetAliens()
 	{
 		for (int column = 0; column < config_.alienColumn; ++column)
 		{
-			aliens_.emplace_back(&config_, &alien1Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize});
+			aliens_.emplace_back(&config_, &alien1Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize}, 1);
 		}
 	}
 
@@ -214,7 +273,7 @@ void SpaceInvaders::ResetAliens()
 	{
 		for (int column = 0; column < config_.alienColumn; ++column)
 		{
-			aliens_.emplace_back(&config_, &alien2Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize});
+			aliens_.emplace_back(&config_, &alien2Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize}, 0);
 		}
 	}
 }
@@ -313,7 +372,8 @@ void SpaceInvaders::CheckForCollisions()
 		{
 			laser.OnHit();
 			ufo_.OnHit();
-			// Score +
+			score_ += config_.ufoScore;
+			PlaySound(bonusSound_);
 			continue;
 		}
 
@@ -329,7 +389,8 @@ void SpaceInvaders::CheckForCollisions()
 			{
 				laser.OnHit();
 				alien.OnHit();
-				// Score +
+				score_ += alien.GetScore();
+				PlaySound(explosionSound_);
 			}
 		}
 
@@ -368,7 +429,8 @@ void SpaceInvaders::CheckForCollisions()
 		if (CheckCollisionRecs(laser.GetRect(), spaceship_.GetRect()))
 		{
 			laser.OnHit();
-			// HP -
+			lives_--;
+			PlaySound(explosionSound_);
 			continue;
 		}
 
@@ -402,7 +464,8 @@ void SpaceInvaders::CheckForCollisions()
 		if (CheckCollisionRecs(alien.GetRect(), spaceship_.GetRect()))
 		{
 			alien.OnHit();
-			// HP -
+			lives_--;
+			PlaySound(explosionSound_);
 			continue;
 		}
 
@@ -447,4 +510,25 @@ void SpaceInvaders::CleanUpInactiveObjects(std::vector<T>& objects)
 					   }),
 		objects.end()
 	);
+}
+
+void SpaceInvaders::LoadHighScore()
+{
+	highScore_ = 0;
+	std::ifstream highScoreFile(config_.highScoreFileName);
+	if (highScoreFile.is_open())
+	{
+		highScoreFile >> highScore_;
+		highScoreFile.close();
+	}
+}
+
+void SpaceInvaders::SaveHighScore()
+{
+	std::ofstream highScoreFile(config_.highScoreFileName);
+	if (highScoreFile.is_open())
+	{
+		highScoreFile << highScore_;
+		highScoreFile.close();
+	}
 }

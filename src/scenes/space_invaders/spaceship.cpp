@@ -34,17 +34,18 @@ void Spaceship::Move(bool isLeft)
 	position_.x = Clamp(position_.x + config_->spaceshipSpeed * (isLeft ? -1 : 1), config_->offset.x + config_->uiPadding, config_->offset.x + config_->fieldDimension.x - config_->uiPadding - config_->spaceshipSize);
 }
 
-void Spaceship::Fire(std::vector<Laser>& lasers)
+bool Spaceship::Fire(std::vector<Laser>& lasers)
 {
 	double currentTime = GetTime();
 	if (currentTime - lastFireTime_ < config_->spaceshipFireInterval)
 	{
-		return;
+		return false;
 	}
 
 	lastFireTime_ = currentTime;
 	Vector2 laserStartPosition = {position_.x + config_->spaceshipSize / 2, position_.y};
     lasers.emplace_back(config_, laserStartPosition, -config_->laserSpeed);
+    return true;
 }
 
 Rectangle Spaceship::GetRect() const

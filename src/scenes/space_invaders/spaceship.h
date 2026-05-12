@@ -25,7 +25,7 @@ public:
 
 	void Init();
 	void Move(bool isLeft);
-	void Fire(std::vector<Laser>& lasers);
+	bool Fire(std::vector<Laser>& lasers);
 
 	Rectangle GetRect() const;
 };

@@ -1,10 +1,12 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 struct SpaceInvadersConfig
 {
 	int targetFps = 60;
+	std::string highScoreFileName = "space_invaders_highscore.txt";
 
 	// PLAYFIELD
 	Color backgroundColor = {11, 19, 32, 255};   // #0B1320
@@ -17,6 +19,8 @@ struct SpaceInvadersConfig
 	float spaceshipSpeed = 4.0f;
 	float spaceshipSize = 60.0f;
 	double spaceshipFireInterval = 0.35;
+	int spaceshipLives = 5;
+	float spaceshipLivesSize = 40.0f;
 
 	// LASER
 	float laserSpeed = 4.0f;
@@ -50,14 +54,19 @@ struct SpaceInvadersConfig
 	int alien2Row = 3;
 	int alienColumn = 8;
 	double alienFireInterval = 0.35;
+	int alien1Score = 10;
+	int alien2Score = 20;
 
 	// UFO
 	float ufoSpeed = 2.5f;
 	float ufoSize = 60.0f;
 	int ufoSpawnIntervalMin = 10;
 	int ufoSpawnIntervalMax = 20;
+	int ufoScore = 100;
 
 	// UI LAYOUT
+	Color playerScoreColor = {220, 240, 255, 255}; // #DCF0FF
+
 	float buttonWidth = 200.0f;
 	float buttonHeight = 50.0f;
 

@@ -351,6 +351,10 @@
     <ClCompile Include="src\scenes\space_invaders\ufo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\space_invaders\bgm.ogg" />
+    <None Include="resources\space_invaders\bonus.ogg" />
+    <None Include="resources\space_invaders\explosion.ogg" />
+    <None Include="resources\space_invaders\laser.ogg" />
     <None Include="src\icon.ico" />
   </ItemGroup>
   <ItemGroup>

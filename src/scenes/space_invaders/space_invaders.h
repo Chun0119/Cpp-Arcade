@@ -47,8 +47,17 @@ private:
 	double lastUfoSpawnTime_ = 0;
 	double ufoSpawnInterval_ = 0;
 
+	int lives_ = 0;
+	int score_ = 0;
+	int highScore_ = 0;
+
 	TextButton backButton_;
 	TextButton startButton_;
+
+	Music backgroundMusic_ = {};
+	Sound shootSound_ = {};
+	Sound explosionSound_ = {};
+	Sound bonusSound_ = {};
 
 public:
 	SpaceInvaders();
@@ -74,4 +83,7 @@ public:
 
 	template<typename T>
 	void CleanUpInactiveObjects(std::vector<T>& lasers);
+
+	void LoadHighScore();
+	void SaveHighScore();
 };

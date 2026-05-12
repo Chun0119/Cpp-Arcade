@@ -7,6 +7,7 @@
 int main()
 {
 	InitWindow(800, 600, "Cpp Arcade");
+	InitAudioDevice();
 
 	SearchAndSetResourceDir("resources");
 

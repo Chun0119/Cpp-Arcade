@@ -8,10 +8,11 @@
 #include "laser.h"
 #include "space_invaders_config.h"
 
-Alien::Alien(const SpaceInvadersConfig* config, const Texture2D* texture, Vector2 position) : 
+Alien::Alien(const SpaceInvadersConfig* config, const Texture2D* texture, Vector2 position, int type) : 
     config_(config),
     texture_(texture),
     position_(position),
+    type_(type),
     active_(true)
 { }
 
@@ -45,14 +46,24 @@ void Alien::OnHit()
     active_ = false;
 }
 
-bool Alien::IsActive() const
-{
-    return active_;
-}
-
 bool Alien::IsOutOfField() const
 {
     return position_.x < config_->offset.x || position_.x > config_->offset.x + config_->fieldDimension.x - config_->alienSize;
+}
+
+int Alien::GetScore() const
+{
+    if (type_ == 0)
+    {
+        return config_->alien1Score;
+    }
+
+    return config_->alien2Score;
+}
+
+bool Alien::IsActive() const
+{
+    return active_;
 }
 
 Rectangle Alien::GetRect() const

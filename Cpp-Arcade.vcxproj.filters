@@ -181,6 +181,18 @@
     <None Include="src\icon.ico">
       <Filter>Windows Resource Files</Filter>
     </None>
+    <None Include="resources\space_invaders\bgm.ogg">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </None>
+    <None Include="resources\space_invaders\bonus.ogg">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </None>
+    <None Include="resources\space_invaders\explosion.ogg">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </None>
+    <None Include="resources\space_invaders\laser.ogg">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\application.rc">
