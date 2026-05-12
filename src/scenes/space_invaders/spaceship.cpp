@@ -46,3 +46,8 @@ void Spaceship::Fire(std::vector<Laser>& lasers)
 	Vector2 laserStartPosition = {position_.x + config_->spaceshipSize / 2, position_.y};
     lasers.emplace_back(config_, laserStartPosition, -config_->laserSpeed);
 }
+
+Rectangle Spaceship::GetRect() const
+{
+    return {position_.x, position_.y, config_->spaceshipSize, config_->spaceshipSize};
+}

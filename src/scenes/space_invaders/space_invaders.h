@@ -69,5 +69,9 @@ public:
 
 	void UpdateUfo();
 
-	void CleanUpLasers(std::vector<Laser>& lasers);
+	void CheckForCollisions();
+	void CleanUp();
+
+	template<typename T>
+	void CleanUpInactiveObjects(std::vector<T>& lasers);
 };

@@ -19,6 +19,8 @@ public:
 	void Draw();
 
 	void Move();
+	void OnHit();
 
 	bool IsActive() const;
+	Rectangle GetRect() const;
 };

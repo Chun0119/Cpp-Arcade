@@ -11,7 +11,8 @@
 Alien::Alien(const SpaceInvadersConfig* config, const Texture2D* texture, Vector2 position) : 
     config_(config),
     texture_(texture),
-    position_(position)
+    position_(position),
+    active_(true)
 { }
 
 void Alien::Draw()
@@ -39,7 +40,22 @@ void Alien::Fire(std::vector<Laser>& lasers)
     lasers.emplace_back(config_, laserStartPosition, config_->laserSpeed);
 }
 
+void Alien::OnHit()
+{
+    active_ = false;
+}
+
+bool Alien::IsActive() const
+{
+    return active_;
+}
+
 bool Alien::IsOutOfField() const
 {
     return position_.x < config_->offset.x || position_.x > config_->offset.x + config_->fieldDimension.x - config_->alienSize;
+}
+
+Rectangle Alien::GetRect() const
+{
+    return {position_.x, position_.y, config_->alienSize, config_->alienSize};
 }

@@ -51,7 +51,17 @@ void Ufo::Move()
     }
 }
 
+void Ufo::OnHit()
+{
+    active_ = false;
+}
+
 bool Ufo::IsActive() const
 {
     return active_;
+}
+
+Rectangle Ufo::GetRect() const
+{
+    return {position_.x, position_.y, config_->ufoSize, config_->ufoSize};
 }

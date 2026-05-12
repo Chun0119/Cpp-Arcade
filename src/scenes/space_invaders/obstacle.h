@@ -14,10 +14,11 @@ private:
 
 	Vector2 position_ = {0, 0};
 	std::vector<Block> blocks_;
-	std::vector<std::vector<int>> grids_;
 
 public:
 	Obstacle(const SpaceInvadersConfig* config, Vector2 position);
 
 	void Draw();
+
+	std::vector<Block>& GetBlocks();
 };

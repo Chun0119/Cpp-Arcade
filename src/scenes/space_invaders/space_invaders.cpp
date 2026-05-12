@@ -112,12 +112,6 @@ void SpaceInvaders::Draw()
 			break;
 		case GameState::Running:
 			spaceship_.Draw();
-
-			for (auto& laser : spaceshipLasers_)
-			{
-				laser.Draw();
-			}
-
 			for (auto& obstacles : obstacles_)
 			{
 				obstacles.Draw();
@@ -126,6 +120,11 @@ void SpaceInvaders::Draw()
 			for (auto& alien : aliens_)
 			{
 				alien.Draw();
+			}
+
+			for (auto& laser : spaceshipLasers_)
+			{
+				laser.Draw();
 			}
 
 			for (auto& laser : alienLasers_)
@@ -181,7 +180,6 @@ void SpaceInvaders::UpdateGame()
 	{
 		laser.Move();
 	}
-	CleanUpLasers(spaceshipLasers_);
 
 	UpdateAliens();
 
@@ -189,9 +187,11 @@ void SpaceInvaders::UpdateGame()
 	{
 		laser.Move();
 	}
-	CleanUpLasers(alienLasers_);
 
 	UpdateUfo();
+
+	CheckForCollisions();
+	CleanUp();
 }
 
 void SpaceInvaders::ResetAliens()
@@ -237,6 +237,11 @@ void SpaceInvaders::ResetObstacles()
 
 void SpaceInvaders::UpdateAliens()
 {
+	if (aliens_.empty())
+	{
+		return;
+	}
+
 	bool shouldMoveDown = false;
 
 	for (const auto& alien : aliens_)
@@ -266,7 +271,7 @@ void SpaceInvaders::UpdateAliens()
 	}
 
 	lastAlienFireTime_ = currentTime;
-	int randomIndex = GetRandomValue(0, aliens_.size() - 1);
+	int randomIndex = GetRandomValue(0, (int)aliens_.size() - 1);
 	aliens_[randomIndex].Fire(alienLasers_);
 }
 
@@ -294,14 +299,152 @@ void SpaceInvaders::UpdateUfo()
 	ufo_.Spawn();
 }
 
-void SpaceInvaders::CleanUpLasers(std::vector<Laser>& lasers)
+void SpaceInvaders::CheckForCollisions()
 {
-	lasers.erase(
-		std::remove_if(lasers.begin(), lasers.end(),
-					   [](const Laser& laser)
+	for (auto& laser : spaceshipLasers_)
+	{
+		if (!laser.IsActive())
+		{
+			continue;
+		}
+
+		// Spaceship laser VS ufo
+		if (CheckCollisionRecs(laser.GetRect(), ufo_.GetRect()))
+		{
+			laser.OnHit();
+			ufo_.OnHit();
+			// Score +
+			continue;
+		}
+
+		// Spaceship laser VS alien
+		for (auto& alien : aliens_)
+		{
+			if (!alien.IsActive())
+			{
+				continue;
+			}
+
+			if (CheckCollisionRecs(laser.GetRect(), alien.GetRect()))
+			{
+				laser.OnHit();
+				alien.OnHit();
+				// Score +
+			}
+		}
+
+		if (!laser.IsActive())
+		{
+			continue;
+		}
+
+		// Spaceship laser VS obstacle
+		for (auto& obstacle : obstacles_)
+		{
+			for (auto& block : obstacle.GetBlocks())
+			{
+				if (!block.IsActive())
+				{
+					continue;
+				}
+
+				if (CheckCollisionRecs(laser.GetRect(), block.GetRect()))
+				{
+					laser.OnHit();
+					block.OnHit();
+				}
+			}
+		}
+	}
+
+	for (auto& laser : alienLasers_)
+	{
+		if (!laser.IsActive())
+		{
+			continue;
+		}
+
+		// Alien laser VS spaceship
+		if (CheckCollisionRecs(laser.GetRect(), spaceship_.GetRect()))
+		{
+			laser.OnHit();
+			// HP -
+			continue;
+		}
+
+		// Alien laser VS obstacle
+		for (auto& obstacle : obstacles_)
+		{
+			for (auto& block : obstacle.GetBlocks())
+			{
+				if (!block.IsActive())
+				{
+					continue;
+				}
+
+				if (CheckCollisionRecs(laser.GetRect(), block.GetRect()))
+				{
+					laser.OnHit();
+					block.OnHit();
+				}
+			}
+		}
+	}
+
+	for (auto& alien : aliens_)
+	{
+		if (!alien.IsActive())
+		{
+			continue;
+		}
+
+		// Alien VS spaceship
+		if (CheckCollisionRecs(alien.GetRect(), spaceship_.GetRect()))
+		{
+			alien.OnHit();
+			// HP -
+			continue;
+		}
+
+		// Alien VS obstacle
+		for (auto& obstacle : obstacles_)
+		{
+			for (auto& block : obstacle.GetBlocks())
+			{
+				if (!block.IsActive())
+				{
+					continue;
+				}
+
+				if (CheckCollisionRecs(alien.GetRect(), block.GetRect()))
+				{
+					block.OnHit();
+				}
+			}
+		}
+	}
+}
+
+void SpaceInvaders::CleanUp()
+{
+	CleanUpInactiveObjects(spaceshipLasers_);
+	CleanUpInactiveObjects(aliens_);
+	CleanUpInactiveObjects(alienLasers_);
+	for (auto& obstacle : obstacles_)
+	{
+		CleanUpInactiveObjects(obstacle.GetBlocks());
+	}
+}
+
+template<typename T>
+void SpaceInvaders::CleanUpInactiveObjects(std::vector<T>& objects)
+{
+	objects.erase(
+		std::remove_if(objects.begin(), objects.end(),
+					   [](const T& object)
 					   {
-						   return !laser.IsActive();
+						   return !object.IsActive();
 					   }),
-		lasers.end()
+		objects.end()
 	);
 }

@@ -11,7 +11,7 @@ private:
 	const Texture2D* texture_ = nullptr;
 
 	Vector2 position_ = {0, 0};
-	float direction_ = 0;
+	int direction_ = 0;
 	bool active_ = false;
 
 public:
@@ -23,6 +23,8 @@ public:
 
 	void Spawn();
 	void Move();
+	void OnHit();
 
 	bool IsActive() const;
+	Rectangle GetRect() const;
 };

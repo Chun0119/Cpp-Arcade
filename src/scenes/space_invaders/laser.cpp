@@ -36,7 +36,17 @@ void Laser::Move()
     }
 }
 
+void Laser::OnHit()
+{
+    active_ = false;
+}
+
 bool Laser::IsActive() const
 {
     return active_;
+}
+
+Rectangle Laser::GetRect() const
+{
+    return {position_.x, position_.y, config_->laserSize.x, config_->laserSize.y};
 }
