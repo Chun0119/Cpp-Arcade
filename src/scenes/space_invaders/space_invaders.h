@@ -11,6 +11,8 @@
 #include "spaceship.h"
 #include "laser.h"
 #include "obstacle.h"
+#include "alien.h"
+#include "ufo.h"
 #include "space_invaders_config.h"
 
 class SpaceInvaders : public Scene
@@ -28,11 +30,22 @@ private:
 	GameState state_ = GameState::Menu;
 
 	Spaceship spaceship_;
-	Texture2D spaceshipTexture_;
-
-	std::vector<Laser> lasers_;
+	Texture2D spaceshipTexture_ = {};
+	std::vector<Laser> spaceshipLasers_;
 
 	std::vector<Obstacle> obstacles_;
+
+	std::vector<Alien> aliens_;
+	Texture2D alien1Texture_ = {};
+	Texture2D alien2Texture_ = {};
+	bool isAlienMovingLeft_ = false;
+	std::vector<Laser> alienLasers_;
+	double lastAlienFireTime_ = 0;
+
+	Ufo ufo_;
+	Texture2D ufoTexture_ = {};
+	double lastUfoSpawnTime_ = 0;
+	double ufoSpawnInterval_ = 0;
 
 	TextButton backButton_;
 	TextButton startButton_;
@@ -49,5 +62,12 @@ public:
 	void UpdateGame();
 
 	void ResetObstacles();
-	void CleanUpLasers();
+	void ResetAliens();
+
+	void UpdateAliens();
+	void MoveAliensDown();
+
+	void UpdateUfo();
+
+	void CleanUpLasers(std::vector<Laser>& lasers);
 };

@@ -8,14 +8,14 @@ struct SpaceInvadersConfig
 
 	// PLAYFIELD
 	Color backgroundColor = {11, 19, 32, 255};   // #0B1320
-	Vector2 fieldDimension = {900.0f, 700.0f};
+	Vector2 fieldDimension = {900.0f, 750.0f};
 	Vector2 offset = {16.0f, 66.0f};
 	Color playfieldColor = {17, 27, 46, 255};   // #111B2E
 	float playfieldBorderThickness = 5.0f;
 
 	// SPACESHIP
 	float spaceshipSpeed = 4.0f;
-	float spaceshipSize = 80.0f;
+	float spaceshipSize = 60.0f;
 	double spaceshipFireInterval = 0.35;
 
 	// LASER
@@ -25,7 +25,7 @@ struct SpaceInvadersConfig
 
 	// OBSTACLE
 	int obstacleAmount = 4;
-	float obstacleBlockSize = 3.0f;   // #5A82AA
+	int obstacleBlockSize = 4;   // #5A82AA
 	Color obstacleColor = {90, 130, 170, 255};   // #5A82AA
 	std::vector<std::vector<int>> obstacleShape = {
 		{ 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0 },
@@ -42,6 +42,20 @@ struct SpaceInvadersConfig
 		{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}
 	};
+
+	// ALIEN
+	Vector2 alienSpeed = {2.0f, 8.0f};
+	float alienSize = 50.0f;
+	int alien1Row = 2;
+	int alien2Row = 3;
+	int alienColumn = 8;
+	double alienFireInterval = 0.35;
+
+	// UFO
+	float ufoSpeed = 2.5f;
+	float ufoSize = 60.0f;
+	int ufoSpawnIntervalMin = 10;
+	int ufoSpawnIntervalMax = 20;
 
 	// UI LAYOUT
 	float buttonWidth = 200.0f;

@@ -318,12 +318,14 @@
     <ClInclude Include="src\scenes\snake\snake.h" />
     <ClInclude Include="src\scenes\snake\snake_game.h" />
     <ClInclude Include="src\scenes\snake\snake_game_config.h" />
+    <ClInclude Include="src\scenes\space_invaders\alien.h" />
     <ClInclude Include="src\scenes\space_invaders\block.h" />
     <ClInclude Include="src\scenes\space_invaders\laser.h" />
     <ClInclude Include="src\scenes\space_invaders\obstacle.h" />
     <ClInclude Include="src\scenes\space_invaders\spaceship.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h" />
+    <ClInclude Include="src\scenes\space_invaders\ufo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\button.cpp" />
@@ -340,11 +342,13 @@
     <ClCompile Include="src\scenes\snake\food.cpp" />
     <ClCompile Include="src\scenes\snake\snake.cpp" />
     <ClCompile Include="src\scenes\snake\snake_game.cpp" />
+    <ClCompile Include="src\scenes\space_invaders\alien.cpp" />
     <ClCompile Include="src\scenes\space_invaders\block.cpp" />
     <ClCompile Include="src\scenes\space_invaders\laser.cpp" />
     <ClCompile Include="src\scenes\space_invaders\obstacle.cpp" />
     <ClCompile Include="src\scenes\space_invaders\spaceship.cpp" />
     <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp" />
+    <ClCompile Include="src\scenes\space_invaders\ufo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />
@@ -360,6 +364,11 @@
   <ItemGroup>
     <Image Include="resources\pong.png" />
     <Image Include="resources\snake.png" />
+    <Image Include="resources\space_invaders.png" />
+    <Image Include="resources\space_invaders\alien_1.png" />
+    <Image Include="resources\space_invaders\alien_2.png" />
+    <Image Include="resources\space_invaders\spaceship.png" />
+    <Image Include="resources\space_invaders\ufo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

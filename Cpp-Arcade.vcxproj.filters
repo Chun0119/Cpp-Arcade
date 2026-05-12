@@ -31,6 +31,9 @@
     <Filter Include="Scenes\Space Invaders">
       <UniqueIdentifier>{486f44dd-c6df-409d-9d7a-9efc23413159}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Resource Files\Space Invaders">
+      <UniqueIdentifier>{8b77290b-2b78-4c14-a451-099bdd1b54a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
@@ -102,6 +105,12 @@
     <ClInclude Include="src\scenes\space_invaders\obstacle.h">
       <Filter>Scenes\Space Invaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\alien.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\space_invaders\ufo.h">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -161,6 +170,12 @@
     <ClCompile Include="src\scenes\space_invaders\obstacle.cpp">
       <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\space_invaders\alien.cpp">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\space_invaders\ufo.cpp">
+      <Filter>Scenes\Space Invaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico">
@@ -178,6 +193,21 @@
     </Image>
     <Image Include="resources\snake.png">
       <Filter>Game Resource Files</Filter>
+    </Image>
+    <Image Include="resources\space_invaders.png">
+      <Filter>Game Resource Files</Filter>
+    </Image>
+    <Image Include="resources\space_invaders\alien_1.png">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </Image>
+    <Image Include="resources\space_invaders\alien_2.png">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </Image>
+    <Image Include="resources\space_invaders\spaceship.png">
+      <Filter>Game Resource Files\Space Invaders</Filter>
+    </Image>
+    <Image Include="resources\space_invaders\ufo.png">
+      <Filter>Game Resource Files\Space Invaders</Filter>
     </Image>
   </ItemGroup>
 </Project>

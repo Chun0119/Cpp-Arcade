@@ -12,6 +12,8 @@
 #include "spaceship.h"
 #include "laser.h"
 #include "obstacle.h"
+#include "alien.h"
+#include "ufo.h"
 #include "space_invaders_config.h"
 
 SpaceInvaders::SpaceInvaders() :
@@ -67,6 +69,12 @@ void SpaceInvaders::Init()
 
 	spaceshipTexture_ = LoadTexture("space_invaders/spaceship.png");
 	spaceship_.SetUp(&config_, &spaceshipTexture_);
+
+	alien1Texture_ = LoadTexture("space_invaders/alien_1.png");
+	alien2Texture_ = LoadTexture("space_invaders/alien_2.png");
+
+	ufoTexture_ = LoadTexture("space_invaders/ufo.png");
+	ufo_.SetUp(&config_, &ufoTexture_);
 }
 
 void SpaceInvaders::Update()
@@ -105,7 +113,7 @@ void SpaceInvaders::Draw()
 		case GameState::Running:
 			spaceship_.Draw();
 
-			for (auto& laser : lasers_)
+			for (auto& laser : spaceshipLasers_)
 			{
 				laser.Draw();
 			}
@@ -114,6 +122,18 @@ void SpaceInvaders::Draw()
 			{
 				obstacles.Draw();
 			}
+
+			for (auto& alien : aliens_)
+			{
+				alien.Draw();
+			}
+
+			for (auto& laser : alienLasers_)
+			{
+				laser.Draw();
+			}
+
+			ufo_.Draw();
 			break;
 		case GameState::GameOver:
 			backButton_.Draw();
@@ -125,13 +145,18 @@ void SpaceInvaders::Draw()
 void SpaceInvaders::Shutdown()
 {
 	UnloadTexture(spaceshipTexture_);
+	UnloadTexture(alien1Texture_);
+	UnloadTexture(alien2Texture_);
+	UnloadTexture(ufoTexture_);
 }
 
 void SpaceInvaders::StartGame()
 {
 	spaceship_.Init();
-	lasers_.clear();
+	spaceshipLasers_.clear();
 	ResetObstacles();
+	ResetAliens();
+	ufoSpawnInterval_ = GetRandomValue(config_.ufoSpawnIntervalMin, config_.ufoSpawnIntervalMax);
 
 	state_ = GameState::Running;
 }
@@ -149,23 +174,57 @@ void SpaceInvaders::UpdateGame()
 
 	if (IsKeyDown(KEY_SPACE))
 	{
-		spaceship_.Fire(lasers_);
+		spaceship_.Fire(spaceshipLasers_);
 	}
 
-	for (auto& laser : lasers_)
+	for (auto& laser : spaceshipLasers_)
 	{
 		laser.Move();
 	}
+	CleanUpLasers(spaceshipLasers_);
 
-	CleanUpLasers();
+	UpdateAliens();
+
+	for (auto& laser : alienLasers_)
+	{
+		laser.Move();
+	}
+	CleanUpLasers(alienLasers_);
+
+	UpdateUfo();
+}
+
+void SpaceInvaders::ResetAliens()
+{
+	aliens_.clear();
+
+	float offsetY = config_.offset.y + config_.spaceshipSize;
+
+	for (int row = 0; row < config_.alien1Row; ++row)
+	{
+		for (int column = 0; column < config_.alienColumn; ++column)
+		{
+			aliens_.emplace_back(&config_, &alien1Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize});
+		}
+	}
+
+	offsetY += (config_.alien2Row - 1) * config_.alienSize;
+
+	for (int row = 0; row < config_.alien2Row; ++row)
+	{
+		for (int column = 0; column < config_.alienColumn; ++column)
+		{
+			aliens_.emplace_back(&config_, &alien2Texture_, Vector2{config_.offset.x + column * config_.alienSize, offsetY + row * config_.alienSize});
+		}
+	}
 }
 
 void SpaceInvaders::ResetObstacles()
 {
 	obstacles_.clear();
 
-	int obstacleHeight = config_.obstacleShape.size() * config_.obstacleBlockSize;
-	int obstacleWidth = config_.obstacleShape[0].size() * config_.obstacleBlockSize;
+	int obstacleHeight = (int)config_.obstacleShape.size() * config_.obstacleBlockSize;
+	int obstacleWidth = (int)config_.obstacleShape[0].size() * config_.obstacleBlockSize;
 	float gap = (config_.fieldDimension.x - config_.obstacleAmount * obstacleWidth) / (config_.obstacleAmount + 1);
 	float positionY = config_.offset.y + config_.fieldDimension.y - config_.spaceshipSize - obstacleHeight - config_.uiPadding * 2;
 
@@ -176,14 +235,73 @@ void SpaceInvaders::ResetObstacles()
 	}
 }
 
-void SpaceInvaders::CleanUpLasers()
+void SpaceInvaders::UpdateAliens()
 {
-	lasers_.erase(
-		std::remove_if(lasers_.begin(), lasers_.end(),
+	bool shouldMoveDown = false;
+
+	for (const auto& alien : aliens_)
+	{
+		if (alien.IsOutOfField())
+		{
+			shouldMoveDown = true;
+			break;
+		}
+	}
+
+	if (shouldMoveDown)
+	{
+		isAlienMovingLeft_ = !isAlienMovingLeft_;
+		MoveAliensDown();
+	}
+
+	for (auto& alien : aliens_)
+	{
+		alien.Move(isAlienMovingLeft_);
+	}
+
+	double currentTime = GetTime();
+	if (currentTime - lastAlienFireTime_ < config_.alienFireInterval)
+	{
+		return;
+	}
+
+	lastAlienFireTime_ = currentTime;
+	int randomIndex = GetRandomValue(0, aliens_.size() - 1);
+	aliens_[randomIndex].Fire(alienLasers_);
+}
+
+void SpaceInvaders::MoveAliensDown()
+{
+	for (auto& alien : aliens_)
+	{
+		alien.MoveDown();
+	}
+}
+
+void SpaceInvaders::UpdateUfo()
+{
+	ufo_.Move();
+
+	double currentTime = GetTime();
+	if (currentTime - lastUfoSpawnTime_ < ufoSpawnInterval_)
+	{
+		return;
+	}
+
+	lastUfoSpawnTime_ = currentTime;
+	ufoSpawnInterval_ = GetRandomValue(config_.ufoSpawnIntervalMin, config_.ufoSpawnIntervalMax);
+
+	ufo_.Spawn();
+}
+
+void SpaceInvaders::CleanUpLasers(std::vector<Laser>& lasers)
+{
+	lasers.erase(
+		std::remove_if(lasers.begin(), lasers.end(),
 					   [](const Laser& laser)
 					   {
 						   return !laser.IsActive();
 					   }),
-		lasers_.end()
+		lasers.end()
 	);
 }

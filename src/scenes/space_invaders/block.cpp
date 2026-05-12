@@ -11,5 +11,5 @@ Block::Block(const SpaceInvadersConfig* config, Vector2 position) :
 
 void Block::Draw()
 {
-    DrawRectangle(position_.x, position_.y, config_->obstacleBlockSize, config_->obstacleBlockSize, config_->obstacleColor);
+    DrawRectangle((int)position_.x, (int)position_.y, config_->obstacleBlockSize, config_->obstacleBlockSize, config_->obstacleColor);
 }
