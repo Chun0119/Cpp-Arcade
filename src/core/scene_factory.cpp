@@ -7,6 +7,7 @@
 #include "scenes/snake/snake_game.h"
 #include "scenes/pong/pong_game.h"
 #include "scenes/space_invaders/space_invaders.h"
+#include "scenes/tetris/tetris.h"
 
 // Menu needs manager injected
 std::unique_ptr<Scene> SceneFactory::CreateMenu()
@@ -27,4 +28,9 @@ std::unique_ptr<Scene> SceneFactory::CreatePong()
 std::unique_ptr<Scene> SceneFactory::CreateSpaceInvaders()
 {
 	return std::make_unique<SpaceInvaders>();
+}
+
+std::unique_ptr<Scene> SceneFactory::CreateTetris()
+{
+	return std::make_unique<Tetris>();
 }

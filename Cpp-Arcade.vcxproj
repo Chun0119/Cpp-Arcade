@@ -326,6 +326,8 @@
     <ClInclude Include="src\scenes\space_invaders\space_invaders.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h" />
     <ClInclude Include="src\scenes\space_invaders\ufo.h" />
+    <ClInclude Include="src\scenes\tetris\tetris.h" />
+    <ClInclude Include="src\scenes\tetris\tetris_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\button.cpp" />
@@ -349,12 +351,18 @@
     <ClCompile Include="src\scenes\space_invaders\spaceship.cpp" />
     <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp" />
     <ClCompile Include="src\scenes\space_invaders\ufo.cpp" />
+    <ClCompile Include="src\scenes\tetris\tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\space_invaders\bgm.ogg" />
     <None Include="resources\space_invaders\bonus.ogg" />
     <None Include="resources\space_invaders\explosion.ogg" />
     <None Include="resources\space_invaders\laser.ogg" />
+    <None Include="resources\tetris\clear.ogg" />
+    <None Include="resources\tetris\drop.ogg" />
+    <None Include="resources\tetris\hold.ogg" />
+    <None Include="resources\tetris\level_up.ogg" />
+    <None Include="resources\tetris\rotate.ogg" />
     <None Include="src\icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -373,6 +381,10 @@
     <Image Include="resources\space_invaders\alien_2.png" />
     <Image Include="resources\space_invaders\spaceship.png" />
     <Image Include="resources\space_invaders\ufo.png" />
+    <Image Include="resources\tetris.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\tetris\bgm.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

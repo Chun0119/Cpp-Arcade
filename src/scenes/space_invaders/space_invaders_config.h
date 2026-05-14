@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include "raylib.h"
+
 struct SpaceInvadersConfig
 {
 	int targetFps = 60;

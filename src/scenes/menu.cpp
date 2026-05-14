@@ -21,7 +21,7 @@ void Menu::Init()
 {
 	SetWindowSize(900, 600);
 
-    gameButtons_.reserve(3);
+    gameButtons_.reserve(4);
 
     gameButtons_.emplace_back(
         gridLayout_.GetCell(0),
@@ -42,6 +42,13 @@ void Menu::Init()
         "space_invaders.png",
         "Space Invaders",
         [this]() { sceneManager_->ChangeScene(SceneFactory::CreateSpaceInvaders()); }
+    );
+
+    gameButtons_.emplace_back(
+        gridLayout_.GetCell(3),
+        "tetris.png",
+        "Tetris",
+        [this]() { sceneManager_->ChangeScene(SceneFactory::CreateTetris()); }
     );
 }
 

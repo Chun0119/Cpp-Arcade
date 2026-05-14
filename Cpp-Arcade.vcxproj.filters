@@ -34,6 +34,12 @@
     <Filter Include="Game Resource Files\Space Invaders">
       <UniqueIdentifier>{8b77290b-2b78-4c14-a451-099bdd1b54a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Tetris">
+      <UniqueIdentifier>{1450757d-54f0-4142-924c-6c12cec1bd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Resource Files\Tetris">
+      <UniqueIdentifier>{7eb28e08-163c-4b4e-9a9c-41a320b3268d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resource_dir.h">
@@ -111,6 +117,12 @@
     <ClInclude Include="src\scenes\space_invaders\ufo.h">
       <Filter>Scenes\Space Invaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\tetris\tetris.h">
+      <Filter>Scenes\Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\tetris\tetris_config.h">
+      <Filter>Scenes\Tetris</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -176,6 +188,9 @@
     <ClCompile Include="src\scenes\space_invaders\ufo.cpp">
       <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\tetris\tetris.cpp">
+      <Filter>Scenes\Tetris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico">
@@ -192,6 +207,21 @@
     </None>
     <None Include="resources\space_invaders\laser.ogg">
       <Filter>Game Resource Files\Space Invaders</Filter>
+    </None>
+    <None Include="resources\tetris\clear.ogg">
+      <Filter>Game Resource Files\Tetris</Filter>
+    </None>
+    <None Include="resources\tetris\drop.ogg">
+      <Filter>Game Resource Files\Tetris</Filter>
+    </None>
+    <None Include="resources\tetris\hold.ogg">
+      <Filter>Game Resource Files\Tetris</Filter>
+    </None>
+    <None Include="resources\tetris\level_up.ogg">
+      <Filter>Game Resource Files\Tetris</Filter>
+    </None>
+    <None Include="resources\tetris\rotate.ogg">
+      <Filter>Game Resource Files\Tetris</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -221,5 +251,13 @@
     <Image Include="resources\space_invaders\ufo.png">
       <Filter>Game Resource Files\Space Invaders</Filter>
     </Image>
+    <Image Include="resources\tetris.png">
+      <Filter>Game Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\tetris\bgm.wav">
+      <Filter>Game Resource Files\Tetris</Filter>
+    </Media>
   </ItemGroup>
 </Project>

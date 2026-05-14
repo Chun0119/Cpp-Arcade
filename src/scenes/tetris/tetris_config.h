@@ -2,39 +2,35 @@
 
 #include "raylib.h"
 
-struct PongGameConfig
+struct TetrisConfig
 {
 	int targetFps = 60;
-
-	int winningScore = 10;
+	std::string highScoreFileName = "tetris_highscore.txt";
 
 	// PLAYFIELD
 	Color backgroundColor = {11, 19, 32, 255};   // #0B1320
-	Vector2 fieldDimension = {1200.0f, 600.0f};
+	Vector2 fieldDimension = {900.0f, 750.0f};
 	Vector2 offset = {16.0f, 66.0f};
 	Color playfieldColor = {17, 27, 46, 255};   // #111B2E
-	Color fieldLineColor = {62, 235, 127, 80};  // transparent green
 	float playfieldBorderThickness = 5.0f;
+	Color panelColor = {28, 43, 72, 255}; // #1C2B48
 
-	// BALL
-	int ballStartAngleRange = 45;
-	float ballSpeed = 7.0f;
-	float ballRadius = 20.0f;
-	Color ballColor = {102, 255, 170, 255};
+	// GRID
+	Color gridLineColor = {40, 65, 110, 120}; // translucent blue
 
-	// PADDLE
-	Vector2 paddleSize = {25.0f, 125.0f};
-	float paddleSpeed = 4.0f;
-	float paddleMoveThreshold = 10.0f;
-	Color playerPaddleColor = {62, 235, 127, 255};
-	Color aiPaddleColor = {255, 77, 77, 255};
+	// BLOCKS
+	Color iBlockColor = {0, 240, 255, 255}; // #00F0FF
+	Color oBlockColor = {255, 230, 70, 255}; // #FFE646
+	Color tBlockColor = {180, 70, 255, 255}; // #B446FF
+	Color sBlockColor = {62, 235, 127, 255}; // #3EEB7F
+	Color zBlockColor = {255, 77, 77, 255}; // #FF4D4D
+	Color jBlockColor = {70, 120, 255, 255}; // #4678FF
+	Color lBlockColor = {255, 150, 40, 255}; // #FF9628
 
 	// UI LAYOUT
-	Color playerScoreColor = {102, 255, 170, 255};
-	Color aiScoreColor = {255, 77, 77, 255};
-
-	Color winColor = {62, 235, 127, 255}; // green
-	Color loseColor = {255, 77, 77, 255};  // red
+	Color borderColor = {50, 80, 140, 255}; // #32508C
+	Color uiLabelColor = {180, 210, 255, 255}; // #B4D2FF
+	Color playerScoreColor = {220, 240, 255, 255}; // #DCF0FF
 
 	float buttonWidth = 200.0f;
 	float buttonHeight = 50.0f;

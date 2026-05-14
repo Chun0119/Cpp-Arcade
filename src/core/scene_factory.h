@@ -11,4 +11,5 @@ public:
 	static std::unique_ptr<Scene> CreateSnake();
 	static std::unique_ptr<Scene> CreatePong();
 	static std::unique_ptr<Scene> CreateSpaceInvaders();
+	static std::unique_ptr<Scene> CreateTetris();
 };
