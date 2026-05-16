@@ -365,8 +365,6 @@
     <None Include="resources\space_invaders\laser.ogg" />
     <None Include="resources\tetris\clear.ogg" />
     <None Include="resources\tetris\drop.ogg" />
-    <None Include="resources\tetris\hold.ogg" />
-    <None Include="resources\tetris\level_up.ogg" />
     <None Include="resources\tetris\rotate.ogg" />
     <None Include="src\icon.ico" />
   </ItemGroup>

@@ -229,12 +229,6 @@
     <None Include="resources\tetris\drop.ogg">
       <Filter>Game Resource Files\Tetris</Filter>
     </None>
-    <None Include="resources\tetris\hold.ogg">
-      <Filter>Game Resource Files\Tetris</Filter>
-    </None>
-    <None Include="resources\tetris\level_up.ogg">
-      <Filter>Game Resource Files\Tetris</Filter>
-    </None>
     <None Include="resources\tetris\rotate.ogg">
       <Filter>Game Resource Files\Tetris</Filter>
     </None>

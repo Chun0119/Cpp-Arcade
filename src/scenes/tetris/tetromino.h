@@ -21,7 +21,7 @@ public:
     Tetromino() = default;
     Tetromino(const TetrisConfig* config, TetrominoType type);
 
-    void Draw(Vector2 offset);
+    void Draw(Vector2 offset, bool isGhost);
 
     void Move(int dx, int dy);
     void Rotate();

@@ -16,13 +16,19 @@ Tetromino::Tetromino(const TetrisConfig* config, TetrominoType type) :
     position_.y = 0;
 }
 
-void Tetromino::Draw(Vector2 offset)
+void Tetromino::Draw(Vector2 offset, bool isGhost)
 {
     auto cells = GetCells();
 
+    Color color = config_->tetrominosColor[static_cast<int>(type_)];
+    if (isGhost)
+    {
+        color.a *= 0.5f;
+    }
+
     for (const auto& cell : cells)
     {
-        DrawRectangle(offset.x + cell.x * config_->tetrominoCellSize, offset.y + cell.y * config_->tetrominoCellSize, config_->tetrominoCellSize - config_->gridLineThickness, config_->tetrominoCellSize - config_->gridLineThickness, config_->tetrominosColor[static_cast<int>(type_)]);
+        DrawRectangle(offset.x + cell.x * config_->tetrominoCellSize, offset.y + cell.y * config_->tetrominoCellSize, config_->tetrominoCellSize - config_->gridLineThickness, config_->tetrominoCellSize - config_->gridLineThickness, color);
     }
 }
 

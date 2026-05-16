@@ -31,12 +31,18 @@ private:
 	float dropTimer_ = 0.0f;
 
 	Tetromino nextTetromino_;
+	Tetromino ghostTetromino_;
 
 	int score_ = 0;
 	int highScore_ = 0;
 
 	TextButton backButton_;
 	TextButton startButton_;
+
+	Music backgroundMusic_ = {};
+	Sound dropSound_ = {};
+	Sound clearSound_ = {};
+	Sound rotateSound_ = {};
 
 public:
 	Tetris();
@@ -58,4 +64,5 @@ public:
 	bool MoveTetrominoDown();
 
 	Tetromino GetRandomTetromino();
+	Tetromino GetGhostTetromino();
 };

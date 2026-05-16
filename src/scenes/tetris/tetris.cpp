@@ -71,10 +71,19 @@ void Tetris::Init()
 	LoadHighScore();
 
 	grid_.Init();
+
+	backgroundMusic_ = LoadMusicStream("tetris/bgm.wav");
+	PlayMusicStream(backgroundMusic_);
+
+	dropSound_ = LoadSound("tetris/drop.ogg");
+	clearSound_ = LoadSound("tetris/clear.ogg");
+	rotateSound_ = LoadSound("tetris/rotate.ogg");
 }
 
 void Tetris::Update()
 {
+	UpdateMusicStream(backgroundMusic_);
+
 	switch (state_)
 	{
 		case GameState::Menu:
@@ -123,12 +132,18 @@ void Tetris::Draw()
 			startButton_.Draw();
 			break;
 		case GameState::Running:
-			currentTetromino_.Draw(config_.offset);
-			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2});
+		{
+			currentTetromino_.Draw(config_.offset, false);
+
+			Tetromino ghost = GetGhostTetromino();
+			ghost.Draw(config_.offset, true);
+
+			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2}, false);
 			break;
+		}
 		case GameState::GameOver:
-			currentTetromino_.Draw(config_.offset);
-			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2});
+			currentTetromino_.Draw(config_.offset, false);
+			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2}, false);
 
 			std::string endingMessage = "Game Over";
 			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
@@ -147,6 +162,10 @@ void Tetris::Draw()
 
 void Tetris::Shutdown()
 {
+	UnloadMusicStream(backgroundMusic_);
+	UnloadSound(dropSound_);
+	UnloadSound(clearSound_);
+	UnloadSound(rotateSound_);
 }
 
 void Tetris::StartGame()
@@ -263,6 +282,7 @@ void Tetris::RotateCurrentTetromino()
 	Cell oldPosition = currentTetromino_.GetPosition();
 
 	currentTetromino_.Rotate();
+	PlaySound(rotateSound_);
 
 	if (grid_.IsValidPosition(currentTetromino_))
 	{
@@ -296,6 +316,8 @@ void Tetris::DropCurrentTetromino()
 	{
 		// Keep dropping
 	}
+
+	PlaySound(dropSound_);
 }
 
 bool Tetris::MoveTetrominoDown()
@@ -313,6 +335,11 @@ bool Tetris::MoveTetrominoDown()
 		int completedRow = grid_.ClearLines();
 		score_ += completedRow;
 
+		if (completedRow > 0)
+		{
+			PlaySound(clearSound_);
+		}
+
 		currentTetromino_ = nextTetromino_;
 		nextTetromino_ = GetRandomTetromino();
 
@@ -326,4 +353,18 @@ Tetromino Tetris::GetRandomTetromino()
 {
 	TetrominoType type = static_cast<TetrominoType>(GetRandomValue(0, kTetrominos.size() - 1));
 	return Tetromino(&config_, type);
+}
+
+Tetromino Tetris::GetGhostTetromino()
+{
+	Tetromino ghost = currentTetromino_;
+
+	while (grid_.IsValidPosition(ghost))
+	{
+		ghost.Move(0, 1);
+	}
+
+	ghost.Move(0, -1);
+
+	return ghost;
 }
