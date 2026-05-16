@@ -123,6 +123,15 @@
     <ClInclude Include="src\scenes\tetris\tetris_config.h">
       <Filter>Scenes\Tetris</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenes\tetris\grid.h">
+      <Filter>Scenes\Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\tetris\tetromino.h">
+      <Filter>Scenes\Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\tetris\tetromino_config.h">
+      <Filter>Scenes\Tetris</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -189,6 +198,12 @@
       <Filter>Scenes\Space Invaders</Filter>
     </ClCompile>
     <ClCompile Include="src\scenes\tetris\tetris.cpp">
+      <Filter>Scenes\Tetris</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\tetris\grid.cpp">
+      <Filter>Scenes\Tetris</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\tetris\tetromino.cpp">
       <Filter>Scenes\Tetris</Filter>
     </ClCompile>
   </ItemGroup>

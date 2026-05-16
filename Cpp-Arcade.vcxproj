@@ -326,8 +326,11 @@
     <ClInclude Include="src\scenes\space_invaders\space_invaders.h" />
     <ClInclude Include="src\scenes\space_invaders\space_invaders_config.h" />
     <ClInclude Include="src\scenes\space_invaders\ufo.h" />
+    <ClInclude Include="src\scenes\tetris\grid.h" />
     <ClInclude Include="src\scenes\tetris\tetris.h" />
     <ClInclude Include="src\scenes\tetris\tetris_config.h" />
+    <ClInclude Include="src\scenes\tetris\tetromino.h" />
+    <ClInclude Include="src\scenes\tetris\tetromino_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\button.cpp" />
@@ -351,7 +354,9 @@
     <ClCompile Include="src\scenes\space_invaders\spaceship.cpp" />
     <ClCompile Include="src\scenes\space_invaders\space_invaders.cpp" />
     <ClCompile Include="src\scenes\space_invaders\ufo.cpp" />
+    <ClCompile Include="src\scenes\tetris\grid.cpp" />
     <ClCompile Include="src\scenes\tetris\tetris.cpp" />
+    <ClCompile Include="src\scenes\tetris\tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\space_invaders\bgm.ogg" />

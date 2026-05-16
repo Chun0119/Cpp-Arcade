@@ -6,6 +6,8 @@
 
 #include "components/text_button.h"
 
+#include "grid.h"
+#include "tetromino.h"
 #include "tetris_config.h"
 
 class Tetris : public Scene
@@ -21,6 +23,13 @@ private:
 	};
 
 	GameState state_ = GameState::Menu;
+
+	Grid grid_;
+
+	Tetromino currentTetromino_;
+	float tetrominoMoveTimer_ = 0.0f;
+
+	Tetromino nextTetromino_;
 
 	int score_ = 0;
 	int highScore_ = 0;
@@ -41,4 +50,8 @@ public:
 
 	void LoadHighScore();
 	void SaveHighScore();
+
+	void MoveCurrentTetromino(bool isLeft, bool isHold);
+
+	Tetromino GetRandomTetromino();
 };

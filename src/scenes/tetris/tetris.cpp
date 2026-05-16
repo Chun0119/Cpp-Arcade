@@ -10,14 +10,18 @@
 #include "core/scene_manager.h"
 #include "core/scene_factory.h"
 
+#include "grid.h"
+#include "tetromino.h"
 #include "tetris_config.h"
+#include "tetromino_config.h"
 
 Tetris::Tetris() :
 	config_(),
+	grid_(config_),
 	backButton_(
 		Rectangle{
-			(config_.offset.x + config_.fieldDimension.x / 2 - config_.buttonWidth) / 2,
-			config_.offset.y + config_.fieldDimension.y + config_.uiPadding,
+			config_.offset.x + config_.gridColumn * config_.tetrominoCellSize + (config_.panelWidth - config_.buttonWidth) / 2,
+			config_.offset.y + config_.gridRow * config_.tetrominoCellSize - (config_.uiPadding + config_.buttonHeight) * 2,
 			config_.buttonWidth,
 			config_.buttonHeight
 		},
@@ -36,8 +40,8 @@ Tetris::Tetris() :
 	),
 	startButton_(
 		Rectangle{
-			(config_.offset.x + config_.fieldDimension.x / 2 * 3 - config_.buttonWidth) / 2,
-			config_.offset.y + config_.fieldDimension.y + config_.uiPadding,
+			config_.offset.x + config_.gridColumn * config_.tetrominoCellSize + (config_.panelWidth - config_.buttonWidth) / 2,
+			config_.offset.y + config_.gridRow * config_.tetrominoCellSize - config_.uiPadding - config_.buttonHeight,
 			config_.buttonWidth,
 			config_.buttonHeight
 		},
@@ -59,11 +63,16 @@ Tetris::Tetris() :
 
 void Tetris::Init()
 {
-	Vector2 screenSize = config_.fieldDimension + config_.offset * 2;
-	SetWindowSize((int)screenSize.x, (int)screenSize.y);
+	int screenSizeX = config_.gridColumn * config_.tetrominoCellSize + config_.panelWidth + config_.offset.x * 2;
+	int screenSizeY = config_.gridRow * config_.tetrominoCellSize + config_.offset.y * 2;
+	SetWindowSize(screenSizeX, screenSizeY);
 	SetTargetFPS(config_.targetFps);
 
 	LoadHighScore();
+
+	grid_.Init();
+	currentTetromino_ = GetRandomTetromino();
+	nextTetromino_ = GetRandomTetromino();
 }
 
 void Tetris::Update()
@@ -89,16 +98,25 @@ void Tetris::Draw()
 	int titleTextWidth = MeasureText(titleText.c_str(), config_.fontSize);
 	DrawText(titleText.c_str(), (GetScreenWidth() - titleTextWidth) / 2, (int)(config_.offset.y - config_.fontSize - config_.uiPadding), config_.fontSize, config_.secondaryHoverTextColor);
 
-	Rectangle playfieldRect = {config_.offset.x, config_.offset.y, config_.fieldDimension.x, config_.fieldDimension.y};
-	DrawRectangleRec(playfieldRect, config_.playfieldColor);
+	Rectangle playfieldRect = {config_.offset.x, config_.offset.y,config_.gridColumn * config_.tetrominoCellSize, config_.gridRow * config_.tetrominoCellSize};
+	DrawRectangleRec(playfieldRect, config_.gridLineColor);
 	DrawRectangleLinesEx({playfieldRect.x - config_.playfieldBorderThickness, playfieldRect.y - config_.playfieldBorderThickness, playfieldRect.width + config_.playfieldBorderThickness * 2, playfieldRect.height + config_.playfieldBorderThickness * 2}, config_.playfieldBorderThickness, config_.secondaryBackgroundColor);
 
-	std::string scoreText = "Score: " + std::to_string(score_);
-	DrawText(scoreText.c_str(), (int)config_.offset.x + config_.uiPadding, (int)config_.offset.y - config_.uiPadding - config_.fontSize, config_.fontSize, config_.playerScoreColor);
+	Rectangle nextTetrominoRect = {playfieldRect.x + playfieldRect.width + config_.uiPadding, config_.offset.y, config_.panelWidth - config_.uiPadding * 2, config_.uiPadding * 3 + config_.tetrominoCellSize * 4 + config_.fontSize};
+	DrawRectangleRec(nextTetrominoRect, config_.panelColor);
+	DrawText("Next", nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.uiPadding, config_.fontSize, config_.uiLabelColor);
 
+	Rectangle scoreRect = {nextTetrominoRect.x, nextTetrominoRect.y + nextTetrominoRect.height + config_.uiPadding, nextTetrominoRect.width, config_.fontSize + config_.uiPadding * 2};
+	DrawRectangleRec(scoreRect, config_.panelColor);
+	std::string scoreText = "Score: " + std::to_string(score_);
+	DrawText(scoreText.c_str(), scoreRect.x + config_.uiPadding, scoreRect.y + config_.uiPadding, config_.fontSize, config_.playerScoreColor);
+
+	Rectangle highScoreRect = {scoreRect.x, scoreRect.y + scoreRect.height + config_.uiPadding, scoreRect.width, config_.fontSize + config_.uiPadding * 2};
+	DrawRectangleRec(highScoreRect, config_.panelColor);
 	std::string highScoreText = "High Score: " + std::to_string(highScore_);
-	int highScoreTexttWidth = MeasureText(highScoreText.c_str(), config_.fontSize);
-	DrawText(highScoreText.c_str(), (int)(config_.offset.x + config_.fieldDimension.x - config_.uiPadding - highScoreTexttWidth), (int)(config_.offset.y - config_.uiPadding - config_.fontSize), config_.fontSize, config_.playerScoreColor);
+	DrawText(highScoreText.c_str(), highScoreRect.x + config_.uiPadding, highScoreRect.y + config_.uiPadding, config_.fontSize, config_.playerScoreColor);
+
+	grid_.Draw();
 
 	switch (state_)
 	{
@@ -107,17 +125,10 @@ void Tetris::Draw()
 			startButton_.Draw();
 			break;
 		case GameState::Running:
+			currentTetromino_.Draw(config_.offset);
+			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2});
 			break;
 		case GameState::GameOver:
-			std::string endingMessage = "Game Over";
-			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
-
-			int textX = (int)(playfieldRect.x + (playfieldRect.width - textWidth) / 2);
-			int textY = (int)(playfieldRect.y + (playfieldRect.height - config_.fontSize) / 2);
-
-			DrawRectangle(0, textY - config_.uiPadding, GetScreenWidth(), config_.fontSize + config_.uiPadding * 2, config_.primaryBackgroundColor);
-			DrawText(endingMessage.c_str(), textX, textY, config_.fontSize, config_.primaryTextColor);
-
 			backButton_.Draw();
 			startButton_.Draw();
 			break;
@@ -137,6 +148,27 @@ void Tetris::StartGame()
 
 void Tetris::UpdateGame()
 {
+	if (IsKeyPressed(KEY_LEFT))
+	{
+		MoveCurrentTetromino(true, false);
+	}
+	else if (IsKeyPressed(KEY_RIGHT))
+	{
+		MoveCurrentTetromino(false, false);
+	}
+	else if (IsKeyDown(KEY_LEFT))
+	{
+		MoveCurrentTetromino(true, true);
+	}
+	else if (IsKeyDown(KEY_RIGHT))
+	{
+		MoveCurrentTetromino(false, true);
+	}
+	
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		currentTetromino_.Rotate();
+	}
 }
 
 void Tetris::LoadHighScore()
@@ -158,4 +190,26 @@ void Tetris::SaveHighScore()
 		highScoreFile << highScore_;
 		highScoreFile.close();
 	}
+}
+
+void Tetris::MoveCurrentTetromino(bool isLeft, bool isHold)
+{
+	if (isHold)
+	{
+		tetrominoMoveTimer_ += GetFrameTime();
+
+		if (tetrominoMoveTimer_ < config_.tetrominoMoveInterval)
+		{
+			return;
+		}
+	}
+
+	currentTetromino_.Move(isLeft);
+	tetrominoMoveTimer_ = 0.0f;
+}
+
+Tetromino Tetris::GetRandomTetromino()
+{
+	TetrominoType type = static_cast<TetrominoType>(GetRandomValue(0, kTetrominos.size() - 1));
+	return Tetromino(&config_, type);
 }
