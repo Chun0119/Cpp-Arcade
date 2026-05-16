@@ -11,7 +11,10 @@
 Tetromino::Tetromino(const TetrisConfig* config, TetrominoType type) :
     config_(config),
     type_(type)
-{ }
+{
+    position_.x = (config_->gridColumn - 4) / 2;
+    position_.y = 0;
+}
 
 void Tetromino::Draw(Vector2 offset)
 {
@@ -23,55 +26,15 @@ void Tetromino::Draw(Vector2 offset)
     }
 }
 
-void Tetromino::Move(bool isLeft)
+void Tetromino::Move(int dx, int dy)
 {
-    int oldPosition = position_.x;
-    position_.x += isLeft ? -1 : 1;
-
-    if (IsValidPosition())
-    {
-        return;
-    }
-
-    position_.x = oldPosition;
-}
-
-void Tetromino::MoveDown()
-{
-    position_.y += 1;
+    position_.x += dx;
+    position_.y += dy;
 }
 
 void Tetromino::Rotate()
 {
-    int oldRotation = rotation_;
-
     rotation_ = (rotation_ + 1) % 4;
-
-    if (IsValidPosition())
-    {
-        return;
-    }
-
-    // +1 wall kick
-    int oldPosition = position_.x;
-    position_.x += 1;
-
-    if (IsValidPosition())
-    {
-        return;
-    }
-
-    // -1 wall kick
-    position_.x = oldPosition - 1;
-
-    if (IsValidPosition())
-    {
-        return;
-    }
-
-    // Restore
-    position_.x = oldPosition;
-    rotation_ = oldRotation;
 }
 
 std::array<Cell, 4> Tetromino::GetCells() const
@@ -88,17 +51,27 @@ std::array<Cell, 4> Tetromino::GetCells() const
     return result;
 }
 
-bool Tetromino::IsValidPosition()
+TetrominoType Tetromino::GetType() const
 {
-    auto cells = GetCells();
+    return type_;
+}
 
-    for (const auto& cell : cells)
-    {
-        if (cell.x < 0 || cell.x >= config_->gridColumn)
-        {
-            return false;
-        }
-    }
+int Tetromino::GetRotation() const
+{
+    return rotation_;
+}
 
-    return true;
+void Tetromino::SetRotation(int rotation)
+{
+    rotation_ = rotation;
+}
+
+Cell Tetromino::GetPosition() const
+{
+    return position_;
+}
+
+void Tetromino::SetPosition(Cell position)
+{
+    position_ = position;
 }

@@ -38,7 +38,9 @@ struct TetrisConfig
 		Color{255, 150, 40, 255} // #FF9628		L
 	};
 	int tetrominoCellSize = 32;
-	float tetrominoMoveInterval = 0.12f;
+	float tetrominoMoveInterval = 0.2f;
+	float tetrominoDefaultDropDelay = 0.5f;
+	float tetrominoFastDropDelay = 0.1f;
 
 	// UI LAYOUT
 	Color borderColor = {50, 80, 140, 255}; // #32508C

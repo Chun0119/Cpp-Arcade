@@ -28,6 +28,7 @@ private:
 
 	Tetromino currentTetromino_;
 	float tetrominoMoveTimer_ = 0.0f;
+	float dropTimer_ = 0.0f;
 
 	Tetromino nextTetromino_;
 
@@ -52,6 +53,9 @@ public:
 	void SaveHighScore();
 
 	void MoveCurrentTetromino(bool isLeft, bool isHold);
+	void RotateCurrentTetromino();
+	void DropCurrentTetromino();
+	bool MoveTetrominoDown();
 
 	Tetromino GetRandomTetromino();
 };

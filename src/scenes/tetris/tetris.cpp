@@ -71,8 +71,6 @@ void Tetris::Init()
 	LoadHighScore();
 
 	grid_.Init();
-	currentTetromino_ = GetRandomTetromino();
-	nextTetromino_ = GetRandomTetromino();
 }
 
 void Tetris::Update()
@@ -129,6 +127,18 @@ void Tetris::Draw()
 			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2});
 			break;
 		case GameState::GameOver:
+			currentTetromino_.Draw(config_.offset);
+			nextTetromino_.Draw({nextTetrominoRect.x + config_.uiPadding, nextTetrominoRect.y + config_.fontSize + config_.uiPadding * 2});
+
+			std::string endingMessage = "Game Over";
+			int textWidth = MeasureText(endingMessage.c_str(), config_.fontSize);
+
+			int textX = (int)(playfieldRect.x + (playfieldRect.width - textWidth) / 2);
+			int textY = (int)(playfieldRect.y + (playfieldRect.height - config_.fontSize) / 2);
+
+			DrawRectangle(playfieldRect.x, textY - config_.uiPadding, playfieldRect.width, config_.fontSize + config_.uiPadding * 2, config_.primaryBackgroundColor);
+			DrawText(endingMessage.c_str(), textX, textY, config_.fontSize, config_.primaryTextColor);
+
 			backButton_.Draw();
 			startButton_.Draw();
 			break;
@@ -141,6 +151,12 @@ void Tetris::Shutdown()
 
 void Tetris::StartGame()
 {
+	dropTimer_ = 0.0f;
+
+	grid_.Init();
+	currentTetromino_ = GetRandomTetromino();
+	nextTetromino_ = GetRandomTetromino();
+
 	score_ = 0;
 
 	state_ = GameState::Running;
@@ -165,9 +181,36 @@ void Tetris::UpdateGame()
 		MoveCurrentTetromino(false, true);
 	}
 	
+	if (IsKeyPressed(KEY_UP))
+	{
+		RotateCurrentTetromino();
+	}
+
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		currentTetromino_.Rotate();
+		DropCurrentTetromino();
+	}
+	else
+	{
+		float currentDropDelay = IsKeyDown(KEY_DOWN) ? config_.tetrominoFastDropDelay : config_.tetrominoDefaultDropDelay;
+		dropTimer_ += GetFrameTime();
+
+		if (dropTimer_ < currentDropDelay)
+		{
+			return;
+		}
+
+		MoveTetrominoDown();
+	}
+
+	if (!grid_.IsValidPosition(currentTetromino_))
+	{
+		if (score_ > highScore_)
+		{
+			highScore_ = score_;
+			SaveHighScore();
+		}
+		state_ = GameState::GameOver;
 	}
 }
 
@@ -204,8 +247,79 @@ void Tetris::MoveCurrentTetromino(bool isLeft, bool isHold)
 		}
 	}
 
-	currentTetromino_.Move(isLeft);
+	currentTetromino_.Move(isLeft ? -1 : 1, 0);
+
+	if (!grid_.IsValidPosition(currentTetromino_))
+	{
+		currentTetromino_.Move(isLeft ? 1 : -1, 0);
+	}
+
 	tetrominoMoveTimer_ = 0.0f;
+}
+
+void Tetris::RotateCurrentTetromino()
+{
+	int oldRotation = currentTetromino_.GetRotation();
+	Cell oldPosition = currentTetromino_.GetPosition();
+
+	currentTetromino_.Rotate();
+
+	if (grid_.IsValidPosition(currentTetromino_))
+	{
+		return;
+	}
+
+	// Wall kick right
+	currentTetromino_.SetPosition({oldPosition.x + 1, oldPosition.y});
+
+	if (grid_.IsValidPosition(currentTetromino_))
+	{
+		return;
+	}
+
+	// Wall kick left
+	currentTetromino_.SetPosition({oldPosition.x - 1, oldPosition.y});
+
+	if (grid_.IsValidPosition(currentTetromino_))
+	{
+		return;
+	}
+
+	// Restore
+	currentTetromino_.SetPosition(oldPosition);
+	currentTetromino_.SetRotation(oldRotation);
+}
+
+void Tetris::DropCurrentTetromino()
+{
+	while (MoveTetrominoDown())
+	{
+		// Keep dropping
+	}
+}
+
+bool Tetris::MoveTetrominoDown()
+{
+	dropTimer_ = 0.0f;
+
+	currentTetromino_.Move(0, 1);
+
+	if (!grid_.IsValidPosition(currentTetromino_))
+	{
+		currentTetromino_.Move(0, -1);
+
+		grid_.LockTetromino(currentTetromino_);
+
+		int completedRow = grid_.ClearLines();
+		score_ += completedRow;
+
+		currentTetromino_ = nextTetromino_;
+		nextTetromino_ = GetRandomTetromino();
+
+		return false;
+	}
+
+	return true;
 }
 
 Tetromino Tetris::GetRandomTetromino()

@@ -17,17 +17,19 @@ private:
 
     Cell position_ = {0, 0};
 
-    bool IsValidPosition();
-
 public:
     Tetromino() = default;
     Tetromino(const TetrisConfig* config, TetrominoType type);
 
     void Draw(Vector2 offset);
 
-    void Move(bool isLeft);
-    void MoveDown();
+    void Move(int dx, int dy);
     void Rotate();
 
     std::array<Cell, 4> GetCells() const;
+    TetrominoType GetType() const;
+    int GetRotation() const;
+    void SetRotation(int rotation);
+    Cell GetPosition() const;
+    void SetPosition(Cell position);
 };
