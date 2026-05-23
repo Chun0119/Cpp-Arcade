@@ -78,5 +78,3 @@ This project is licensed under the MIT License.
 ## Author
 
 Developed by **Sarah Chun**
-
-GitHub: https://github.com/yourusername
